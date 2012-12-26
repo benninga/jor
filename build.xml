@@ -271,6 +271,7 @@
                 <copy file="@{hibernate-file}" tofile="${server-full-file-name}" overwrite="true" />
                 <echo message="Updating Hibernate configuration file: ${server-full-file-name}" />
                 <replace file="${server-full-file-name}" token="P_HOST_NAME" value="${db.host.name}" />
+                <replace file="${server-full-file-name}" token="P_HOST_PORT" value="${db.host.port}" />
                 <replace file="${server-full-file-name}" token="P_DB_NAME" value="${db.db.name}" />
                 <replace file="${server-full-file-name}" token="P_USER_NAME" value="${db.user.name}" />
                 <replace file="${server-full-file-name}" token="P_PASSWORD" value="${db.user.password}" />

@@ -9,9 +9,9 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://P_HOST_NAME:5560/grabcad_metrics</property>
-        <property name="connection.username">metrics</property>
-        <property name="connection.password"></property>
+        <property name="connection.url">jdbc:postgresql://P_HOST_NAME:P_HOST_PORT/grabcad_metrics</property>
+        <property name="connection.username">P_USER_NAME</property>
+        <property name="connection.password">P_USER_PASSWORD</property>
 
         <!-- SQL dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
