@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+<project name="JOR-Properties">
+
+    <!--
+    =================================================================================
+    === Properties Setting Section                        ====
+    =================================================================================
+    -->
+
+    <!--
+         First, set some properties that cannot be overriden in property files.
+         We may want to use the values of these properties within the property files.
+     -->
+    <!-- set global properties for this build -->
+    <basename property="local.dir.name" file="${basedir}"/>
+    <property name="src" location="src" />
+    <property name="src.java.server" location="${src}/java/server" />
+    <property name="src.java.shared" location="${src}/java/shared" />
+    <property name="src.resources" location="${src}/resources" />
+    <property name="src.web" location="${src}/web" />
+    
+    <property name="src.web.css" location="${src.web}/css" />
+    <property name="main.css.file" value="jor-common.css" />
+
+    <property name="build" location="build" />
+    <property name="report.dir" location="${build}/reports" />
+    <property name="logs.dir" location="${build}/logs" />
+    <property name="misc.build.files" location="${basedir}/misc/build" />
+    <property name="db.temp.dir" value="${build}/db" />
+    <property name="db.migration.dir" value="${basedir}/misc/db-migration" />
+    <property name="operations.dir" value="${basedir}/misc/operations" />
+    <property name="dist" location="${build}/dist" />
+    <property name="temp.dir" value="${build}/temp" />
+    <property name="remote.command.output.file" value="${temp.dir}/remote-command-output.txt" />
+    <property name="product.version.dir" value="${src.resources}/org/jor/client" />
+    <property name="product.version.file" value="${product.version.dir}/VersionConstants.properties" />
+    <property name="build.css" value="${build}/css" />
+
+    <property name="src.tests.system.junit" location="${src}/test/system" />
+    <property name="src.tests.web.junit" location="${src}/test/web" />
+    <property name="src.tests.server.junit" location="${src}/test/server-junit" />
+    <property name="src.tests.shared.junit" location="${src}/test/shared-junit" />
+    <property name="junit" location="${build}/junit" />
+    <property name="system.test.results.dir" location="${junit}/system-test-results" />
+    <property name="web.test.results.dir" location="${junit}/web-test-results" />
+    <property name="junit.server.results.dir" location="${junit}/junit-server-results" />
+    <property name="junit.shared.results.dir" location="${junit}/junit-shared-results" />
+    <property name="system.test.report.dir" location="${report.dir}/system-test" />
+    <property name="web.test.report.dir" location="${report.dir}/web-test" />
+    <property name="junit.server.report.dir" location="${report.dir}/junit-server" />
+    <property name="junit.shared.report.dir" location="${report.dir}/junit-shared" />
+    <property name="coverage.dir" location="${report.dir}/coverage" />
+    <property name="coverage.server.report.dir" location="${coverage.dir}/server" />
+    <property name="instrumented.classes.dir" location="${coverage.dir}/instrumented-classes" />
+    <property name="check.style.result.dir" location="${report.dir}/check-style" />
+    
+    <property name="check.style.java.suppressions" location="${misc.build.files}/check-style-java-suppression.xml" />
+    <property name="check.style.xml.suppressions" location="${misc.build.files}/check-style-xml-suppression.xml" />
+    
+    <property name="war" location="war" />
+    <property name="war.inf" location="${war}/WEB-INF" />
+    <property name="war.lib" location="${war.inf}/lib" />
+    <property name="war.css" location="${war}/css" />
+    <property name="war.classes.dir" location="${war.inf}/classes" />
+    <property name="war.file" value="jor.war" />
+    <property name="deploy.dir" value="${war.inf}/deploy" />
+    <property name="classes.dir" location="${build}/classes" />
+    <property name="shared.classes.dir" location="${classes.dir}/shared" />
+    <property name="server.classes.dir" location="${classes.dir}/server" />
+    <property name="test.classes.dir" location="${junit}/test-classes" />
+    <property name="shared.test.classes.dir" location="${test.classes.dir}/shared" />
+    <property name="server.test.classes.dir" location="${test.classes.dir}/server" />
+    <property name="system.test.classes.dir" location="${test.classes.dir}/system" />
+    <property name="web.test.classes.dir" location="${test.classes.dir}/web" />
+
+    <property name="cobertura.data.file" value="cobertura.ser" />
+    
+    <property name="recreate.db.template" value="${operations.dir}/recreate-database.sql" />
+    <property name="recreate.db.file" value="recreate-database.sql" />
+
+    <!--
+         Load property files (local and global)
+    -->
+    <property environment="env"/>
+    <echo message="User profile: ${env.USERPROFILE}" />
+    <echo message="User profile: ${env.HOME}" />
+    <property file="local.build.properties" />
+    <property file="${env.USERPROFILE}/jor.build.properties" /> <!-- For Windows -->
+    <property file="${env.HOME}/jor.build.properties" /> <!-- For Linux/Unix -->
+    <property file="build.properties" />
+
+    <!-- Override DB name by defining the property in local.build.properties -->
+    <property name="db.db.name" value="eko_db_${local.dir.name}" />
+    <echo message="Database name: ${db.db.name}" />
+    
+    <property name="current.major.number" value="1" />
+    <property name="current.minor.number" value="7" />
+    <property name="current.patch.number" value="0" />
+    <property name="current.build.number" value="340" />
+    <property name="current.version" value="${current.major.number}.${current.minor.number}.${current.patch.number}.${current.build.number}"/>
+
+    <!--
+    ########################################################
+    #              3rd Party Software
+    ########################################################
+    -->
+    <property name="3rd.party.dir" value="${m2}/jor/3rd-party" />
+
+    <!-- 3rd Party Versions -->
+    <property name="ant.contrib.version" value="1.0b3" />
+    <property name="postgresql.version" value="9.1-901.jdbc4" />
+
+    <!-- Check Style Library -->
+    <property name="check.style.version" value="5.3" />
+
+    <!-- SLF4J-->
+    <property name="slf4j.version" value="1.5.8" />
+    <property name="slf4j.simple.version" value="1.5.8" />
+    <property name="slf4j.log4j.version" value="1.5.8" />
+    <property name="log4j.version" value="1.2.14" />
+    
+    <!-- Jackson for JSON serialization -->
+    <property name="jackson.version" value="1.8.4" />
+
+    <!-- JUnit -->
+    <property name="junit.version" value="4.8.1" />
+    <property name="junit.jar.file" value="${m2}/junit/junit/${junit.version}/junit-${junit.version}.jar" />
+
+    <!-- Eclipse Compiler JAR -->
+    <property name="eclipse.compiler.version" value="3.7.1" />
+    <property name="eclipse.compiler.dir" value="${m2}/org/eclipse/jdt/core/compiler/ecj/${eclipse.compiler.version}" />
+    <property name="eclipse.compiler.jar" value="${eclipse.compiler.dir}/ecj-${eclipse.compiler.version}.jar" />
+
+     <!-- Java Mail API -->
+     <property name="javamail.api.version" value="1.4.4"/>
+
+    <!-- Mock Runner API -->
+    <property name="com.mockrunner.version" value="0.3.1"/>
+
+     <!-- MockKit API -->
+     <property name="org.mockkito.version" value="1.8.1"/>
+
+     <!-- JSOUP API -->
+     <property name="org.jsoup" value="1.5.2"/>
+
+     <!-- iText library -->
+     <property name="itext.version" value="5.1.2" />
+    
+    <!-- Cobertura - Code coverage -->
+    <property name="cobertura.version" value="1.9.4.1" />
+
+    <!-- HSQL DB -->
+    <property name="hsqldb.version" value="2.0.0" />
+    <property name="hsqldb.dir" value="${3rd.party.dir}/hsqldb/${hsqldb.version}" />
+    
+    <!-- Hibernate Related Libraries -->
+    <property name="hibernate.version" value="3.3.2.GA" />
+    <property name="ehcache.version" value="2.4.7" />
+    <property name="javassist.version" value="3.8.0.GA" />
+    <property name="javax.servlet.version" value="2.5" />
+    <property name="dom4j.version" value="1.6.1" />
+    <property name="commons.collections.version" value="3.2.1" />
+    <property name="jta.version" value="1.1" />
+    <property name="antlr.version" value="2.7.6" />
+    <property name="xml.apis.version" value="1.4.01" />
+    <property name="hsqldb.version" value="2.0.0" />
+    <property name="c3p0.version" value="0.9.1.2" />
+    
+    <!-- Jersey Related Libraries -->
+    <property name="jersey.version" value="1.8" />
+    <property name="asm.version" value="3.1" />
+    <property name="freemarker.version" value="2.3.6" />
+    <property name="jsr311-api.version" value="1.1.1" />
+    <property name="jersey.client.jar" value="${m2}/com/sun/jersey/jersey-client/${jersey.version}/jersey-client-${jersey.version}.jar" />
+    
+    <!-- Mail sending packages -->
+    <property name="javax.mail.version" value="1.4.4" />
+    <property name="javax.mailapi.version" value="1.4.4" />
+    <property name="activation.version" value="1.1" />
+
+    <!-- Jasper Compiler -->
+    <property name="jasper.compiler.version" value="5.5.9" />
+
+    <!-- Properties for configuring Eclipse project -->
+    <property name="eclipse.files.dir" value="${basedir}/misc/eclipse" />
+    
+    <!-- EasyMock library for unit testing -->
+    <property name="easymock.version" value="3.1" />
+    <property name="easymock.jar" value="${m2}/org/easymock/easymock/${easymock.version}/easymock-${easymock.version}.jar" />
+    <property name="objenesis.version" value="1.2" />
+    <property name="objenesis.jar" value="${m2}/org/objenesis/objenesis/${objenesis.version}/objenesis-${objenesis.version}.jar" />
+    <property name="cglib.version" value="2.2.2" />
+    <property name="cglib.jar" value="${m2}/cglib/cglib-nodep/${cglib.version}/cglib-nodep-${cglib.version}.jar" />
+    
+    <property name="httpclient.version" value="4.2.1" />
+    <property name="httpclient.dir" value="${m2}/org/apache/httpcomponents/httpclient/${httpclient.version}" />
+    <property name="httpclient.jar" value="${httpclient.dir}/httpclient-${httpclient.version}.jar" />
+    <property name="httpcore.version" value="4.2.1" />
+    <property name="httpcore.dir" value="${m2}/org/apache/httpcomponents/httpcore/${httpcore.version}" />
+    <property name="httpcore.jar" value="${httpcore.dir}/httpcore-${httpcore.version}.jar" />
+    
+    <!-- Google Guava -->
+    <property name="guava.version" value="12.0" />
+    <property name="guava-gwt.jar" value="${m2}/com/google/guava/guava-gwt/${guava.version}/guava-gwt-${guava.version}.jar" />
+    <property name="guava.jar" value="${m2}/com/google/guava/guava/${guava.version}/guava-${guava.version}.jar" />
+    <property name="guava-jsr305-bug.jar" value="${m2}/com/google/code/findbugs/jsr305/1.3.9/jsr305-1.3.9.jar" />
+
+    <!-- Validation API -->
+    <property name="javax.validation.version" value="1.0.0.GA" />
+    <property name="javax.validation.dir" value="${m2}/javax/validation/validation-api/${javax.validation.version}" />
+    <property name="javax.validation.jar" value="${javax.validation.dir}/validation-api-${javax.validation.version}.jar" />
+    <property name="javax.validation.source.jar" value="${javax.validation.dir}/validation-api-${javax.validation.version}-sources.jar" />
+    
+    <property name="commons.io.version" value="1.3.2" />
+    
+    <!-- Google Visualiztion (Chart) API -->
+    <property name="google.visualization.version" value="1.1.1" />
+    <property name="google.visualization.dir" value="${m2}/com/google/visualization/visualization-datasource/${google.visualization.version}" />
+    <property name="commons.lang.dir" value="${m2}/commons-lang/commons-lang/2.4" />
+    <property name="icu4j.dir" value="${m2}/com/ibm/icu/icu4j/4.0.1" />
+    <property name="opencsv.dir" value="${m2}/net/sf/opencsv/opencsv/1.8" />
+    
+</project>

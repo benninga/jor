@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE module [
+
+<!ELEMENT module (module|property)*>
+<!ATTLIST module name NMTOKEN #REQUIRED>
+
+<!ELEMENT property EMPTY>
+<!ATTLIST property
+        name NMTOKEN #REQUIRED
+        value CDATA #REQUIRED>
+]>
+
+<module name="Checker">
+    <module name="SuppressionFilter">
+        <property name="file" value="${suppressions-file}"/>
+    </module>
+
+    <module name="FileTabCharacter" />
+    <module name="FileLength" >
+        <property name="max" value="1600" />
+    </module>
+</module>

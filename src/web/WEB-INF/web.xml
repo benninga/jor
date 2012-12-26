@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+  
+   <context-param> 
+    <param-name>serverHostURL</param-name> 
+    <param-value>P_SERVER_HOST_URL</param-value> 
+   </context-param>
+  
+   <context-param> 
+    <param-name>defaultDatabaseSource</param-name> 
+    <param-value>P_DEFAULT_DATABASE_SOURCE</param-value> 
+   </context-param>
+  
+   <context-param> 
+    <param-name>databaseSources</param-name> 
+    <param-value>P_DATABASE_SOURCES</param-value> 
+   </context-param>
+   
+  <filter>
+    <filter-name>DataLayerFilter</filter-name>
+    <filter-class>org.jor.server.services.db.DataLayerThreadFilter</filter-class>
+  </filter>
+  
+  <filter>
+    <filter-name>SessionSetupFilter</filter-name>
+    <filter-class>org.jor.server.services.user.SessionSetupFilter</filter-class>
+  </filter>
+  
+  <filter>
+    <filter-name>AddLogContextFilter</filter-name>
+    <filter-class>org.jor.server.log.AddLogContextFilter</filter-class>
+  </filter>
+
+  <filter>
+    <filter-name>AddLogRequestIdFilter</filter-name>
+    <filter-class>org.jor.server.log.AddLogRequestIdFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>DataLayerFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>SessionSetupFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>AddLogContextFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>AddLogRequestIdFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!-- Application Listeners -->
+  <listener>
+    <listener-class>org.jor.server.services.ServicesManager</listener-class>
+  </listener>
+  
+  <!-- Servlets -->
+
+  <servlet>
+    <servlet-name>REST Application</servlet-name>
+    <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+    <init-param>
+        <param-name>com.sun.jersey.config.property.packages</param-name>
+        <param-value>org.jor.rest;org.jor.server.rest</param-value>
+    </init-param>
+    <init-param>
+        <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+        <param-value>true</param-value>
+    </init-param>
+    <init-param>
+        <param-name>com.sun.jersey.spi.container.ResourceFilters</param-name>
+        <param-value>org.jor.server.rest.RestResourceFilterFactory</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>Google DataSource Servlet</servlet-name>
+    <description>Google Visualization (Chart API)</description>
+    <servlet-class>org.jor.server.datasource.MyDataSourceServlet</servlet-class>
+  </servlet>
+  
+  <!-- Servlet Mappings -->
+  <servlet-mapping>
+    <servlet-name>Google DataSource Servlet</servlet-name>
+    <url-pattern>/datasource</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>REST Application</servlet-name>
+    <url-pattern>/api/v1/*</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>/index.html</welcome-file>
+  </welcome-file-list>
+
+  <security-constraint>
+      <web-resource-collection>
+          <web-resource-name>Wildcard means whole app requires authentication</web-resource-name>
+          <url-pattern>P_SECURITY_URL_PATTERN</url-pattern>
+          <http-method>GET</http-method>
+          <http-method>POST</http-method>
+          <http-method>CREATE</http-method>
+          <http-method>DELETE</http-method>
+          <http-method>HEAD</http-method>
+          <http-method>TRACE</http-method>
+          <http-method>OPTIONS</http-method>
+      </web-resource-collection>
+      
+      <auth-constraint>
+          <role-name>grabcad</role-name>
+      </auth-constraint>
+
+      <user-data-constraint>
+          <!-- transport-guarantee can be CONFIDENTIAL, INTEGRAL, or NONE -->
+          <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+      </user-data-constraint>
+  </security-constraint>
+
+  <login-config>
+      <auth-method>BASIC</auth-method>
+  </login-config>
+
+</web-app>

@@ -1,0 +1,42 @@
+/**
+ * Used for REST HTML access (FTL files)
+ */
+
+html, body
+{
+    margin:0;
+    padding:0;
+    align: center;
+    height:100%;
+}
+
+#floater
+{
+    height:50%;
+    margin-bottom:-120px;
+    align: center;
+    text-align: center;
+    margin-left: 0 auto;
+    margin-right: 0 auto;
+}
+
+#login-panel
+{
+    clear: both;
+    height: 240px;
+    position: relative;
+    width: 300px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+div#login-panel form fieldset
+{
+    border: none;
+    margin-bottom: 10px;
+}
+
+td#error-message
+{
+    color: red;
+}

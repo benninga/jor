@@ -1,0 +1,10 @@
+drop table if exists app_config_data;
+drop table if exists app_config_long_data;
+drop table if exists exercise;
+drop table if exists lesson;
+drop table if exists exercise_definition;
+drop table if exists lesson_definition;
+drop table if exists application_configuration;
+drop table if exists application;
+drop table if exists user;
+drop table if exists language;

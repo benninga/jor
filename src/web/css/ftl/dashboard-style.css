@@ -1,0 +1,68 @@
+
+
+body
+{
+}
+
+div#dashboard
+{
+    border:1px dashed black;
+}
+
+div#top-header
+{
+    background-color:#dddddd;
+    font-weight:bold;
+}
+    
+div table
+{
+    margin-left:auto;
+    margin-right:auto;
+}
+
+div#dashboard table tr
+{
+    text-align: center;
+    font-family: arial;
+    
+}
+
+div h1,h2
+{
+    text-align: center;
+}
+
+div#top-benchmarks a img
+{
+    border-style: none;
+}
+
+div#nightly-status table
+{
+    border: 1px solid #CCCCFF;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+div#nightly-status table td,th
+{
+    padding: 3px 3px 3px 10px;
+    border: 1px solid #CCCCFF;
+/*     border-spacing: LENGTH; */
+}
+
+div.good-indicator
+{
+    background-color:#90E69D;
+}
+
+div.warn-indicator
+{
+    background-color:#FFE303;
+}
+
+div.bad-indicator
+{
+    background-color:#FC6B79;
+}

@@ -1,0 +1,22 @@
+#Use the GLOB syntax for defining ignores
+syntax: glob
+
+# Directories
+# ---------------
+build/**
+target/**
+war/**
+.settings/**
+.gwt/**
+gwt-unitCache/**
+.externalToolBuilders/**
+
+# Individual Files
+# -------------------
+/.classpath
+/.project
+/*_run_server.launch
+/cobertura.ser
+/local.build.properties
+/src/resources/org/jor/client/VersionConstants.properties
+

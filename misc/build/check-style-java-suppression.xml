@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions [
+<!ELEMENT suppressions (suppress*)>
+
+<!ELEMENT suppress EMPTY>
+<!ATTLIST suppress files CDATA #REQUIRED
+                   checks CDATA #IMPLIED
+                   id CDATA #IMPLIED
+                   lines CDATA #IMPLIED
+                   columns CDATA #IMPLIED>
+]>
+
+<suppressions>
+    <suppress checks="CyclomaticComplexityCheck" files="BCrypt.java"/>
+    <suppress checks="CyclomaticComplexityCheck" files="RichTextToolbar.java"/>
+    <suppress checks="InnerAssignmentCheck" files="RichTextToolbar.java"/>
+    <suppress checks="MethodCount" files="HousePlan.java"/>
+    <suppress checks="MutableException" files="RestError.java"/>
+    <suppress checks="MethodCount" files="HousePlanConstants.java" />
+    
+    <!--  Temporary suppression ! -->
+    <suppress checks="MethodCount" files="WeatherDataEntry.java" />
+    <suppress checks="MethodCount" files="SummaryView.java" />
+    <suppress checks="MethodCount" files="ComponentConfigurationDisplay.java" />
+    <suppress checks="NPathComplexity" files="WallParser.java" />
+    <suppress checks="NPathComplexity" files="HousePlan.java" />
+    <suppress checks="NPathComplexity" files="HousePlanPresenter.java" />
+    <suppress checks="NPathComplexity" files="AnalysisConfiguration.java" />
+    <suppress checks="NPathComplexity" files="CopyConstructorHelper.java" />
+    <suppress checks="NPathComplexity" files="IECC2009PrescriptiveChecker.java" />
+    <suppress checks="NeedBraces" files="HousePlanListPresenter.java" />
+    <suppress checks="MethodCount" files="EditComponentLibraryPresenter.java" />
+    <suppress checks="MethodCount" files="HousePlanListView.java" />
+    <suppress checks="MethodCount" files="Location.java" />
+    <suppress checks="NPathComplexity" files="EditComponentLibraryPresenter.java" />
+    <suppress checks="NPathComplexity" files="HersAlgorithm.java" />
+    <suppress checks="NPathComplexity" files="GoalAnalyzer.java" />
+    <suppress checks="NPathComplexity" files="TestReferenceHouseBuilder.java" />
+    <suppress checks="NPathComplexity" files="HouseEquipmentSummaryTable.java" />
+    <suppress checks="NPathComplexity"             files="HousePlanLibrary.java" />
+    <suppress checks="MethodCount"                 files="HousePlanLibrary.java" />
+    <suppress checks="FileLength"                  files="HousePlanLibrary.java" />
+    <suppress checks="FileLength"                  files="GuiConstants.java" />
+    <suppress checks="BooleanExpressionComplexity" files="HousePlanLibrary.java" />
+    <suppress checks="MethodCount" files="TestBesTest.java" />
+    <suppress checks="MethodCount" files="ReferenceHomeSummaryCreator.java" />
+    <suppress checks="MethodCount" files="ComponentConfigurationView.java" />
+    <suppress checks="MethodCount" files="ComponentLibrary.java" />
+    <suppress checks="MethodCount" files="HousePlanHeader.java" />
+    <suppress checks="MethodCount" files="AppController.java" />
+    <suppress checks="InnerAssignmentCheck" files="HouseEquipmentSummaryTable.java"/>
+    
+    <!-- External code - We are not responsible for it -->
+    <suppress checks="NPathComplexity" files="SliderBar.java" />
+    
+    <!-- Generated selenium tests -->
+    <suppress checks=".*" files="test.*idebuilt.*" />
+
+    <!-- Never check anything in build temp -->
+    <suppress checks=".*" files="build.temp.*" />
+</suppressions>

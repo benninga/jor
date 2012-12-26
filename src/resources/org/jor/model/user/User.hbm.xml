@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.jor.model.user">
+  <class name="User" table="user">
+    <id name="id" column="id">
+      <generator class="native" />
+    </id>
+    
+    <property name="password" not-null="true"/>
+    <property name="name" not-null="true"/>
+    <property name="username" not-null="true" unique="true"/>
+    <property name="email" not-null="true"/>
+    <property name="sessionId" not-null="false"/>
+    <property name="sessionExpiration" type="timestamp" not-null="false"/>
+    <property name="lastUpdateAt" type="timestamp" not-null="true"/>
+    <property name="isAdmin" not-null="true"/>
+    <property name="estimatorExpiration" not-null="true"/>
+    <property name="isEulaAccepted" not-null="true"/>
+    <property name="siteLicenseExpiration" type="timestamp" not-null="false"/>
+    <property name="dateCreated" type="timestamp" not-null="true"/>
+    <property name="stripeCustomerToken" not-null="false" />
+    <property name="userLibraryId" not-null="true" />
+    <property name="company"  not-null="false" />
+    <property name="website"  not-null="false" />
+    <property name="phone" length="40"  not-null="false" />
+    <property name="isSubscribeToMagazine" not-null="false" />
+    <property name="tags" not-null="false" />
+    <property name="howFoundUs" length="150" not-null="false" />
+
+  </class>
+</hibernate-mapping>

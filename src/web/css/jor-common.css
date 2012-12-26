@@ -1,0 +1,2433 @@
+/** Add css rules here for your application. */
+html { height: 100%; }
+body {
+    height: 100%;       margin: 0;      padding: 0;     font: 12px Helvetica, Arial, sans-serif;
+    color: #333;
+}
+
+.only-visible-during-render { display: none; }
+.rendering-report .display-none-during-render { display: none; }
+.rendering-report .display-inline-block-during-render { display: inline-block; }
+.rendering-report .opacity-zero-during-render { opacity: 0; }
+
+.home-page .compare-components div { float: left; }
+.home-page .compare-components { margin-top: 25px; }
+.home-page .compare-components .compare-label { width: 25%; }
+.home-page .compare-components .button-group { width: 75%; }        
+
+.home-page .compare-components .button-group .button-with-link
+{
+    width: 33%;
+    text-align: center;
+}
+
+.home-page .compare-components .button-group .button-with-link button
+{
+    padding: 1px;
+    width: 80px;
+    margin-left: 7px;
+}
+
+.energy-breakdown-section-header { font-weight: bold; }
+.energy-breakdown-section-header-row { background:  rgba(30, 100, 220, 0.1); }
+
+#Embedded .dock > div:nth-child(1),
+#Embedded .dock > div:nth-child(2)
+{
+    display: none;
+}
+
+#Embedded .dock-center
+{
+    position: fixed !important;
+}
+#QuickInputsRootPanel
+{
+    padding: 15px;
+    border: 2px solid;
+    border-top-width: 5px;
+    border-color: #ABBCCF;
+    border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+.popover .popover-close
+{
+/*     popover zindex + 1  */
+    z-index: 91; 
+    display: block;
+    float: right;
+    width: 6px;
+    height: 13px;
+    position: relative;
+    margin: -20px;
+    top: 10px;
+    left: -15px;
+    color: #85210F;
+    background-color: white;
+    border: 1px solid #85210F;
+    -webkit-border-radius: 20px;
+     -moz-border-radius: 20px;
+          border-radius: 20px;
+}
+
+.popover .popover-close:hover
+{
+    display: block;
+    float: right;
+    width: 6px;
+    position: relative;
+    margin: -20px;
+    top: 10px;
+    left: -15px;
+    color: #85210F;
+    border: 1px solid #85210F;
+    background-color: #E6C983;
+    -webkit-border-radius: 20px;
+     -moz-border-radius: 20px;
+          border-radius: 20px;
+}
+
+#tourButtonAlignmentWrapper {
+    padding-top: 10px;
+}
+
+.popover-inner {
+    -webkit-transition: opacity 0.5s linear;
+    -moz-transition: opacity 0.5s linear;
+    transition: opacity 0.5s linear;
+    opacity: 1.0;
+}
+
+.popover-inner:hover {
+    -webkit-transition: opacity 0.5s linear;
+    -moz-transition: opacity 0.5s linear;
+    transition: opacity 0.5s linear;
+    opacity: 0.8;
+}
+
+.popover-content .example
+{
+    color: #999;
+    font-style: italic;
+    font-size: 11px;
+}
+
+.popover-content .popover-next
+{
+    float: right;
+}
+
+.debug
+{
+    border: 1px solid red !important;
+}
+
+.popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 5px;
+}
+
+.popover .top { 
+  margin-top: -5px;
+}
+
+.popover .right {
+  margin-left: 5px;
+}
+
+.popover .bottom {
+  margin-top: 5px;
+}
+
+.popover .left {
+  margin-left: -5px;
+}
+
+.popover.above .arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-top: 5px solid #000000;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+}
+
+.popover.right_of .arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -5px;
+  border-top: 5px solid transparent;
+  border-right: 5px solid #000000;
+  border-bottom: 5px solid transparent;
+}
+
+.popover.under .arrow {
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #000000;
+  border-left: 5px solid transparent;
+}
+
+.popover.left_of .arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #000000;
+}
+
+.popover .arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.popover-inner {
+  width: 280px;
+  padding: 3px;
+  overflow: hidden;
+  background: #000000;
+  background: rgba(0, 0, 0, 0.8);
+  -webkit-border-radius: 6px / 16px;
+     -moz-border-radius: 6px / 16px;
+          border-radius: 6px / 16px;
+}
+
+.popover-inner {
+  -webkit-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+     -moz-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.popover-title {
+  padding: 9px 15px;
+  line-height: 1;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #eee;
+  -webkit-border-radius: 3px 3px 0 0;
+     -moz-border-radius: 3px 3px 0 0;
+          border-radius: 3px 3px 0 0;
+}
+
+.popover-content {
+  padding: 14px;
+  background-color: #ffffff;
+  -webkit-border-radius: 0 0 3px 3px;
+     -moz-border-radius: 0 0 3px 3px;
+          border-radius: 10px / 20px;
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding-box;
+          background-clip: padding-box;
+}
+
+.popover-content p,
+.popover-content ul,
+.popover-content ol {
+  margin-bottom: 0;
+}
+
+
+#TrademarkLink
+{
+    text-decoration: underline;
+    color: #9B9B9B;
+    text-align: right;
+    padding: 0px !important;
+    cursor: pointer;
+}
+
+.gwt-SplitLayoutPanel .gwt-SliderBar-shell
+{
+    left: 8px;
+}
+
+#paybackGraphView-MainPanel .gwt-SliderBar-shell
+{ 
+    width: 200px;
+}
+
+#TrademarkLink
+{
+    text-decoration: underline;
+    color: #9B9B9B;
+    text-align: right;
+    padding: 0px !important;
+    cursor: pointer;
+}
+
+.upload-dialog
+{
+    padding: 40px;
+}
+
+.GWTUpld
+{
+    margin: 20px;
+}
+
+.upload-dialog .centered-button
+{
+    margin-left: 100px;
+}
+
+#EditImageButton
+{
+    background: url(../images/image_edit_16.png) no-repeat 7px 7px;
+    position: relative;
+    padding-right: 20px;
+    left: -45px;
+    top: 10px;
+}
+
+#paybackGraphView-DownpaymentBox
+{
+    margin-top: 10px;
+    float: left;
+    width: 30px;
+}
+
+#paybackGraphView-DownpaymentLabel
+{
+    margin-top: 10px;
+    float: left;
+}
+
+#paybackGraphView-MainPanel .payback-slider-title
+{
+    width: 100%;
+    text-align: center;
+    float: left;
+    font-family: Georgia;
+    font-weight: bold;
+}
+
+#paybackGraphView-MortgagePanel .payback-slider-title
+{
+    margin-top: 10px;
+}
+
+#paybackGraphView-MortgagePanel .payback-slider
+{
+    text-align: center;
+    margin-top: 15px;
+    margin-left: 50px;
+    float: left;
+    width: 200px;
+}
+
+#paybackGraphView-EscalationPanel .payback-slider
+{
+    text-align: center;
+    margin-left: 5px;
+    margin-top: 15px;
+    float: left;
+    width: 200px;
+}
+
+#paybackGraphView-MortgagePanel .mortgage-check-box
+{
+    margin-left: 10px;
+    margin-top: 10px;
+    float:left;
+}
+
+#paybackGraphView-TitlePanel
+{
+    width: 100%;
+    height: 25px;
+    text-align: center;
+    font-size: 14pt;
+/*     color: #6464DC; chart blue*/
+}
+
+#paybackGraphView-MortgagePanel
+{
+    width: 690px;
+    height: 100px;
+    display: block;
+}
+
+#paybackGraphView-ChartPanel
+{
+    margin-top: 10px;
+    margin-left: 20px; /* For Y Label */
+    float: left;
+    display: inline;
+    width: 630px;
+    height: 310px;
+}
+
+#paybackGraphView-YLabel
+{
+    width: 300px;
+    text-align: center;
+    margin: -10px;
+    position: relative;
+    top: 150px;
+    left: -140px;
+    -ms-transform:rotate(270deg); /* IE 9 */
+    -moz-transform:rotate(270deg); /* Firefox */
+    -webkit-transform:rotate(270deg); /* Safari and Chrome */
+    -o-transform:rotate(270deg); /* Opera */
+/*     -ms-transform-origin:left top; IE 9 */
+/*     -moz-transform-origin:left top; Firefox */
+/*     -webkit-transform-origin:left top; Safari and Chrome */
+/*     -o-transform-origin:left top; Opera */
+}
+
+#paybackGraphView-XLabel
+{
+    margin-left: 330px;
+}
+
+#paybackGraphView-EscalationPanel
+{
+    float: left;
+    display: inline;
+    width: 200px;
+    height: 310px;
+}
+
+#paybackGraphView-CloseButton
+{
+    float: left;
+    margin-top: 10px;
+    margin-left: 415px;
+}
+
+.breadcrumbs a.crumb:hover
+{
+    text-decoration: underline;
+}
+
+.breadcrumbs .crumb.get-started
+{
+    color: #003D00;  
+    font-weight: bold;
+    text-decoration: none; 
+    position: relative; 
+    display: block;
+    float: left;
+    
+    line-height: 30px; 
+    background: url('../images/getstartedcrumb.png') 0px -30px repeat-x; 
+    height: 30px; 
+    
+    margin-left: 10px;
+}
+
+
+.breadcrumbs .crumb.get-started:after
+{
+    background:url('../images/getstartedcrumb.png') 100% -60px no-repeat;
+    
+    position: absolute;     
+    width: 10px;     
+    height: 30px;       
+    top: 0;
+    content:""; 
+}
+
+.breadcrumbs .crumb.get-started.only-item:after
+{
+    background:url('../images/getstartedcrumb.png') 100% -90px no-repeat;
+    
+    position: absolute;     
+    width: 10px;     
+    height: 30px;       
+    top: 0;
+    content:""; 
+}
+
+.breadcrumbs .crumb
+{
+    color: #003D00;  
+    font-weight: bold;
+    text-decoration: none; 
+    position: relative; 
+    display: block;
+    float: left;
+    
+    line-height: 30px; 
+    background: url('../images/breadcrumb.png') 0px -30px repeat-x; 
+    height: 30px; 
+    
+    margin-left: 10px;
+    padding-left: 5px;
+}
+
+.breadcrumbs .crumb.disabled
+{
+    background: url('../images/disabledcrumb.png') 0px -30px repeat-x;
+    color: #1C5D72 !important; 
+}
+
+.breadcrumbs .crumb:after
+{
+    background:url('../images/breadcrumb.png') 100% -60px no-repeat;
+    
+    position: absolute;     
+    width: 10px;     
+    height: 30px;       
+    top: 0;
+    content:""; 
+}
+
+.breadcrumbs .crumb.before-disabled:after
+{
+    background:url('../images/disabledcrumb.png') 100% -60px no-repeat;
+}
+
+.breadcrumbs .crumb.disabled:after
+{
+    background:url('../images/disabledcrumb.png') 100% -120px no-repeat;
+}
+
+.breadcrumbs .crumb.rightmost:after
+{
+    background:url('../images/breadcrumb.png') 100% -90px no-repeat;
+    
+    position: absolute;     
+    width: 10px;     
+    height: 30px;       
+    top: 0;
+    content:""; 
+}
+
+.breadcrumbs .crumb.disabled.rightmost:after
+{
+    background:url('../images/disabledcrumb.png') 100% -90px no-repeat;
+}
+
+.breadcrumbs:before
+{
+    position: absolute;     
+    width: 10px;     
+    height: 30px;       
+    background: url(../images/getstartedcrumb.png)  0% 0px no-repeat;
+    top: 0;
+    content:""; 
+    left:0;
+}
+
+.breadcrumbs
+{
+    position: relative;
+    bottom: 30px;
+}
+
+.ok-cancel-dialog > .button-group
+{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.ok-cancel-dialog > .content
+{
+    padding: 10px;
+}
+
+#EditHousePlanView
+{
+/*     border: 1px solid green; */
+}
+
+#EditHousePlanView .tab-panel
+{
+/*     border: 2px solid yellow; */
+}
+
+.single-component-view
+{
+    min-width: 300px;
+    height: 150px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 3px;
+}
+
+.single-component-view input
+{
+    min-width: 200px;
+}
+
+.single-component-view .button-group 
+{
+    margin-right: -80px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/** Keep edit and remove buttons apart from each other, no accidental removals */
+.single-component-view .button-group .button:first-child
+{
+    margin-right: 100px;
+}
+
+.multi-component-view hr
+{
+    display: none;
+}
+
+/** TODO: real style names for these */
+.multi-component-view h3:FIRST-CHILD
+{
+    max-width: 800px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    border: 1px solid #4992EB;
+    background: #61A1EE;
+    color: white;
+    border-radius: 5px;
+    margin-left: 10px;
+    padding: 0 10px;
+    font-size: 1.5em;
+}
+
+.single-component-view .component-view-remove
+{
+    position: relative;
+    top: -4px;
+}
+
+.multi-component-view .single-component-view 
+{
+    border: 1px solid #CCC;
+    border-radius: 10px;
+}
+.multi-component-view
+{
+    height: 200px;
+/*     border: 1px solid red; */
+}
+
+/** TODO: 
+ * These buttons really should have a style of their own, but since they're the only 'real' button in the enclosing element, 
+ * this works for now
+ */
+.multi-component-view .add-component-button
+{
+    min-width: 80px;
+    width: 80px;
+}
+
+.single-component-view .ComponentSelectionBox
+{
+    width: 150px;
+    overflow: hidden;
+}
+
+.simple-edit-houseplan
+{
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1024px;
+}
+
+.simple-edit-houseplan .inputs
+{
+    float: left;
+}
+
+.simple-edit-houseplan .results
+{
+    float: right;
+}
+
+.simple-edit-houseplan #simpleResultsViewDeltaHeaderId
+{
+    left: 40%;
+}
+
+.simple-edit-houseplan .simple-results-title
+{
+    left: 0%;
+}
+     
+#popUp > div > table
+{
+    border-radius: 16px;
+    box-shadow: 
+    0 0 1px 0 #C0C0C0;
+}
+
+#popUp .popupContent
+{
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    box-shadow: inset 0px 0px 15px #ddd;
+}
+
+#popUp 
+{
+    border-radius: 15px;
+    padding: 10px;
+}
+
+#popUp .component-form-wrapper
+{
+    padding-bottom: 30px;
+    width: 350px;
+    
+}
+
+#popUp .component-form-wrapper .centered-button
+{
+    margin-top: 30px;
+}
+
+#popUp .component-form-wrapper .form
+{
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    
+    
+    
+}
+
+#popUp .component-form-wrapper .form .labeled-pair .widget
+{
+    width: 200px;
+}
+
+#popUp .component-form-wrapper .form .labeled-pair .widgets
+{
+    margin-left: auto;
+    margin-right: auto;
+    width: 340px;
+}
+
+.top-most-layer
+{
+    z-index: 1000;
+}
+
+.gwt-PopupPanel.error
+{
+    margin-top: 4px;
+    margin-left: 20px;
+    z-index: 100;
+    
+    padding: 4px;
+    text-align: center;
+    
+    font-weight: bold;
+    font-size: 14px;
+    font-family:  "Maven Pro", Helvetica, Arial, sans-serif;
+    color: #1B5569;
+    background-color: #FFFFFF;
+    border: 4px groove #EE4000;
+    
+    
+    
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.gwt-PopupPanel.small-error
+{
+    margin-top: 12px;
+    margin-left: 20px;
+    z-index: 100;
+    text-align: center;
+    background-color: #FFFFFF;
+    
+    font-weight: bold;
+    font-size: 12px;
+    font-family:  "Maven Pro", Helvetica, Arial, sans-serif;
+    color: #EE4000;
+    border: none;
+}
+
+
+.invalid 
+{
+    border: 1px solid #FF2400 !important; 
+}
+
+
+.projectTable .icon-sized div
+{
+    width: 32px;
+    height: 32px;
+    margin-left: auto;
+    margin-right: auto;
+}
+ 
+.projectTable thead tr th,
+.projectTable td
+{
+    text-align: center;
+}
+
+.projectTable td.description
+{
+    text-align: justify;
+}
+
+.projectTable td
+{
+    border-left: 2px solid #EEEEEE;
+    border-right: 2px solid #EEEEEE;
+}
+
+.component-configuration-button-panel
+{
+    margin-top: 5px;
+}
+
+.solid-blue,
+.form .labeled-pair .widget,
+.form .labeled-pair .widget input
+{
+    color: #1B556D;
+    font-weight:bold;
+    text-align:center;
+}
+
+.project-plan-selection-tab-panel .label
+{
+    width:120px;
+}
+
+.project-plan-selection-tab-panel .gwt-TabBar
+{
+    width: 3em;
+    margin-left: 40px;
+}
+
+.project-plan-selection-tab-panel .gwt-TabBarItem
+{
+    width: 8em; 
+}
+
+.project-plan-selection-tab-panel .gwt-TabPanelBottom .centered-button
+{
+    margin-left: auto; 
+    margin-right: auto;
+    width: 120px;
+    margin-bottom: 10px;
+    
+}
+
+.project-plan-selection-tab-panel .gwt-TabPanelBottom .labeled-pair .gwt-Image
+{
+    z-index: 2;
+    float: right;
+    position: relative;
+    left: -130px;
+    top: 1px;
+}
+
+.project-plan-selection-tab-panel .gwt-TabPanelBottom .labeled-pair .gwt-CheckBox
+{
+    position: relative;
+    left: 18px;
+    top: 1px;
+}
+
+.project-plan-selection-tab-panel .gwt-TabPanelBottom
+{
+    
+    width:400px;
+    padding-left:10px;
+    padding-right:10px;
+
+    
+    border:2px solid #ABBCCF;
+    border-top: 5px solid #ABBCCF;
+    padding-top:20px;
+
+   
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+.project-plan-selection-tab-panel .gwt-TabPanelBottom .quick-buttons
+{
+    position: relative;
+    margin-bottom: 20px;
+}
+
+div.labeled-pair
+{
+    float:right;
+}
+
+.div-break,
+.inline-div
+{
+    clear:both;
+}
+
+
+.centered-button
+{
+    text-align: center;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.centered-button tr td
+{
+    align: center;
+}
+
+#EditMultiGoals-PanelId .button-group.centered-button
+{
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.login.page .form.panel,
+.home-page-panel .form,
+.project-plan-selection-tab-panel .form 
+{   
+    margin-left: auto;
+    margin-right:auto;
+    width: 300px;
+}
+
+.form .inputs
+{
+    float:left;
+}
+
+.form .widget:focus,
+.single-component-view input:focus,
+.single-component-view select:hover
+{
+    border:2px solid  #ABBCCF;  
+    margin-bottom: 1px;
+    margin-top: 1px;
+    margin-left:-1px;
+}
+
+.single-component-view select:hover
+{
+    margin-right: 1px;
+} 
+
+.form .widget,
+.single-component-view input,
+.single-component-view select
+{
+    border: 1px groove grey;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.form .widget
+{
+    width: 140px;
+    position:relative;
+    top: -4px;
+}
+
+.form .widget.gwt-TextArea,
+.form .widget.gwt-TextBox,
+.form .widget.gwt-PasswordTextBox
+{
+    padding-bottom: 2px;
+    padding-left:5px;
+    width: 130px;
+}
+
+/* Checkbox */
+.form .widget.gwt-CheckBox
+{
+    left: 60px;
+    width: 10px;
+    border:none;
+}
+
+.form .title
+{
+
+    margin-left: auto;
+    margin-right:auto;
+    width:200px;
+    float:left;
+    font-weight: bold;  
+    font-family: "Maven Pro", Helvetica, Arial, sans-serif;
+}
+
+.hidden
+{
+    display:none;
+}
+
+.labeled-pair .label
+{
+    float:left;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.labeled-pair .widget
+{
+    float:right;
+    min-width: 100px;
+}
+
+.component.form .labeled-pair
+{
+    margin-top: 20px;
+    width: 100%;
+
+}
+
+.labeled-pair
+{
+    margin-left: auto;
+    margin-right:auto;
+    width: 300px;
+    float:left;
+    margin-bottom: 1em;
+
+}
+    
+
+.labeled-pair .widgets
+{    
+    margin-right:auto;
+    margin-left:auto;
+    float:left;
+    
+    width:200 px;   
+}
+/**---*/
+.summary-chart.wrapper
+{
+    width: 1024px !important;
+}
+
+.summary-chart.chart,
+.summary-chart.header
+{
+    margin-left: 12px;
+    width: 500px;
+    float: left;
+}
+
+.summary-chart .labeled-pair 
+{
+    width: 500px;
+    float: none;
+}
+    
+.summary-chart .labeled-pair .widgets
+{
+    margin-bottom: 7px;
+}
+
+.summary-chart .labeled-pair .gwt-ListBox
+{
+    position: relative;
+    top: -2px;
+}
+
+.summary-chart .labeled-pair select.gwt-ListBox 
+{
+    width: 376px;
+}
+
+/**---*/
+.two-columns
+{
+
+    float:left;
+    margin-right:1%;
+    margin-left:2%;
+    width:43%   
+}
+
+.login-button-panel .gwt-HTML
+{
+    text-align: center;
+}
+
+.login-button-panel
+{
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-button-panel .button
+{
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+
+.home-page
+{    
+    width: 950px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.home-page-panel-wrapper
+{
+    width: 970px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.home-page-panel
+{ 
+    margin-top: 20px;
+    height: 450px;
+    padding-left:20px;
+    padding-top: 10px;
+    
+    border:3px solid #dedede;
+    border-top:3px solid #aaa;
+    border-left:3px solid #aaa;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+.home-page-panel ul li
+{
+    display: block;
+    list-style-type: circle;
+    list-style-position:inside;
+}
+
+.home-page-actions-panel
+{
+    float: left;
+    width:420px;
+    margin-left: 10px;
+    height: 420px;
+}
+
+.home-page-projects-panel
+{
+    float: left;
+    width: 420px;
+    margin-left: 40px;
+    height: 192px;
+}
+
+.home-page-panel.home-page-calculator-panel
+{
+    float: left;
+    width: 420px;
+    margin-left: 40px;
+    height: 192px;
+}
+
+.home-page-right-panel
+{
+    float: left;
+}
+
+.home-page-large-label
+{
+    font-size: 20px;
+    font-weight: bold;
+    font-family: "Maven Pro", Helvetica, Arial, sans-serif;
+}
+
+.page-header-text
+{
+    font-size: 22px;
+    text-shadow: 1px 1px 1px #C7C3C5;
+    font-weight: lighter;
+    font-family: "Maven Pro", Helvetica, Arial, sans-serif;
+}
+
+/*
+    The following button styles are a derivative work based on 
+    http://particletree.com/features/rediscovering-the-button-element/
+    by Kevin Hale
+    
+    This comment required by the Creative Commons (CC BY 2.5) attribution clause.
+*/
+
+/* BUTTONS */
+a.button, 
+button.button, 
+.plan-col button, 
+.plan-controls button,
+#summaryViewCompare\.CloseButtonId,
+.button-column button,
+.button-cell div,
+.multi-component-view button
+{
+    border-radius: 3px;
+    margin-bottom:3px;
+    margin-right:3px;
+    margin-left:3px;
+    background-color:#f5f5f5;
+    border:1px solid #dedede;
+    border-top:1px solid #aaa;
+    border-left:1px solid #aaa;    
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-size:100%;
+    line-height:130%;
+    text-decoration:none;
+    font-weight:bold;
+    color:#262626;
+    cursor:pointer;
+    padding:5px 10px 6px 7px; /* Links */
+    text-align:center;
+}
+
+.button-cell-w-image24 div
+{
+    padding:1px 2px 1px 7px; /* Links */
+    width: 30px; /* leave just enough room for a 24x24 image */
+}
+
+.narrow.button
+{
+    padding: 1px 5px;
+}
+
+button.button{
+    width:auto;
+    overflow:visible;
+    padding:4px 10px 3px 7px; /* IE6 */
+}
+
+button.button img, a.button img
+{ 
+    width:16px;
+    height:16px;
+}
+
+.button.with-icon img
+{
+    margin-top: -10px;
+    margin-bottom:-10px;
+    padding-left: 2px;
+    padding-right: 2px;
+    vertical-align:middle;
+}
+
+.button-column button:hover,
+.button-cell div:hover,
+.button:hover
+{
+    background-color:#dff4ff;
+    border:1px solid #c2e1ef;
+    color:#336699;
+}
+
+.button-column button:active,
+.button-cell div:active,
+.button:active {
+    background-color:#6299c5;
+    border:1px solid #6299c5;
+    color:#fff;
+}
+/*
+button[type].button {
+    padding:5px 10px 5px 7px; /* Firefox 
+    line-height:17px; /* Safari 
+}
+*:first-child+html button[type]{
+    padding:4px 10px 3px 7px; /* IE7 
+}
+button.positive, .buttons a.positive{
+    color:#529214;
+}
+a.positive:hover.button, button.positive:hover.button{
+    background-color:#E6EFC2;
+    border:1px solid #C6D880;
+    color:#529214;
+}
+.buttons a.positive:active{
+    background-color:#529214;
+    border:1px solid #529214;
+    color:#fff;
+}
+.buttons a.negative, button.negative{
+    color:#d12f19;
+}
+.buttons a.negative:hover, button.negative:hover{
+    background:#fbe3e4;
+    border:1px solid #fbc2c4;
+    color:#d12f19;
+}
+.buttons a.negative:active{
+    background-color:#d12f19;
+    border:1px solid #d12f19;
+    color:#fff;
+}
+*/
+
+.disabled,
+.disabled:hover,
+.disabled:active
+{
+    border: none !important;
+    background-color: #CCC !important;
+    color: #999999 !important;
+    cursor:default !important;
+/*  could do some better styling here for disabled buttons */
+}
+
+
+/* end button styles */
+
+}
+
+/* Make the root panel scroll */
+.rp{
+
+}
+A {
+    text-decoration: none;
+    color: #0152AE;
+}
+H1, #nameBox {
+    font: 24px "Maven Pro", Helvetica, Arial, sans-serif;
+    color: #1D576A;
+}
+
+#popUp table{
+border: 1px solid #D2D2D2;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+}
+
+#popUp table table{
+border: 0px;
+}
+
+.projectTable > td > div {
+    color: White;
+}
+
+#nameBox{
+    margin-left: 260px;
+}
+
+.gwt-TabLayoutPanel,
+.gwt-TabPanel 
+{
+    height: 100%;
+}
+
+/** the tab bar */
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs {
+}
+
+/** the individual tab in the tab bar */
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab, 
+.gwt-TabBar .gwt-TabBarItem 
+{
+    cursor: pointer;
+    cursor: hand;
+    min-width: 6em;
+    background-color: #2B657D;
+    font-size: 9pt;
+    text-align: center;
+    float: left;
+    margin-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #96d3e7;
+    border-top: none;
+    border-bottom-width: 1px !important;
+    border-radius: 0px 0px 4px 4px;
+    -moz-border-radius: 4px 4px 0px 0px;
+    -webkit-border-radius: 4px 4px 0px 0px;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab
+{
+    background-color: #438157;
+    color: #3CF435;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected
+{
+    background-color: #3CF435;
+    color: #438157;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,
+.gwt-TabBar .gwt-TabBarItem-selected 
+{
+    cursor: default;
+    background-color: #ABBCCF;
+    color: #2B657D;
+}
+
+.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabInner {
+}
+
+#showProjectView-description{
+    position: relative;
+    margin-left: 5px;
+}
+#showProjectView-location{        
+    font-size: 14px;
+    font-weight: bold;
+}
+#lastModified{
+    margin-top: 10px;
+    font-size: 10px;
+}
+#descriptionHeader, #state{
+    font-weight: bold;
+}
+#homeImage{
+    float: left;
+    width: 254px;
+    height: 168px;
+    position: relative;
+    margin-right: 10px;
+}
+#homeImage > img {
+    border: 2px solid #D2D2D2;
+}
+TH{
+    padding: 0px 15px !important;
+    text-shadow: none !important;
+    font-weight: bold;
+}
+#W {
+    min-height: 100%;
+}
+/*HEADER*/
+#H {
+    height: 80px;
+    position: relative;
+    border-bottom: 1px solid #014701;
+    background: rgb(35, 113, 139);
+    /*Old browsers*/
+    background: -moz-linear-gradient(top, rgba(35,113,139,1) 0%, rgba(27,86,106,1) 100%);
+    /*FF3.6+*/
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(35,113,139,1)), color-stop(100%,rgba(27,86,106,1)));
+    /*Chrome,Safari4+*/
+    background: -webkit-linear-gradient(top, rgba(35,113,139,1) 0%,rgba(27,86,106,1) 100%);
+    /*Chrome10+,Safari5.1+*/
+    background: -o-linear-gradient(top, rgba(35,113,139,1) 0%,rgba(27,86,106,1) 100%);
+    /*Opera 11.10+*/
+    background: -ms-linear-gradient(top, rgba(35,113,139,1) 0%,rgba(27,86,106,1) 100%);
+    /*IE10+*/
+    background: linear-gradient(top, rgba(35,113,139,1) 0%,rgba(27,86,106,1) 100%);
+    /*W3C*/
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#23718b', endColorstr='#1b566a',GradientType=0 );
+    /*IE6-9*/
+}
+#hPattern {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url(../images/headerPatternBG.png);
+}
+#hLight {
+    width: 1142px;      height: 50px;       top: 0;     left: -101px;
+    background: url(../images/headerLight.png);
+}
+#iH { height: 101px; }
+#iH > * { position: absolute; }
+
+#Logo {
+    
+    width: 273px; 
+    height: 85px; 
+    position: relative;
+    top: 5px;      left: 15;
+    background: url(../images/logo.png) no-repeat;
+    background-size: 50%;
+}
+#Logo h1, #Logo p { display: none; }
+#userH {
+    top: 6px;       right: -5px;        color: #fff;        font-size: 12px;
+}
+#userH > *, #userH a  {
+    color: #fff;        margin: 2px 5px;        display: inline;
+}
+#userH div { margin: 0; }
+#N 
+{ 
+    bottom: 32px; 
+    right: 0px;
+}
+#N ul {
+    list-style: none;       margin: 0;      padding: 0;     height: 28px;
+    border-left: 1px solid #014701;     border-right: 1px solid #528293;
+}
+#N ul li {
+    float: left;        border-right: 1px solid #014701;        border-left: 1px solid #528293;
+    padding: 0 25px;        position: relative;
+}
+#N ul li .indicator {
+    background: url(../images/navActive.png) no-repeat 50% 0;       display: none;
+    right: 0;       left: 0;        height: 10px;       position: absolute;     bottom: -31px;
+}
+#N ul li.active .indicator { display: block; }
+#N ul li a {
+    color: #fff;        font: 16px "Maven Pro", Helvetica, Arial, sans-serif;       text-shadow: #000 1px 1px 2px;
+    display: block;     height: 28px; line-height: 28px;
+}
+#N ul li a:hover { color: #faf100; }
+#startNew { bottom: 18px; right: -4px; }
+.button .get-started { bottom: 18px; right: -4px; }
+#M {
+    min-height: 400px;      background: url(../images/mainBG.png) repeat-x;     padding: 30px 0;
+}
+#iM > div {
+    position: relative !important;      overflow-x: visible !important;     overflow-y: visible !important;
+    top: auto !important;       right: auto !important;     bottom: auto !important;        left: auto !important;
+}
+#F {
+    height: 40px;
+    color: #9B9B9B;
+    font-size: 12px;
+}
+#iF {
+    border-top: 1px solid #E1E1E1;
+    padding: 10px 0 16px;
+}
+#iF #copyright {
+    margin-left: -10px;
+}
+#iF #copyright>* {
+    padding: 0 10px;
+    color: #9B9B9B;
+}
+#iH, #iM, #iF { width: 940px; position: relative; margin: auto; }
+
+.bigGreenButton, .button.big-green-button {
+    border:none !important;
+    margin-left:20px;
+    margin-right:20px;
+    left: 735px; top: 43px;
+    height: 51px;       background: url(../images/bigGreenButtonFill.png);      display: inline-block;
+    position: relative;     line-height: 48px;      padding: 0 20px 0 11px;     font-size: 18px;
+    color: #003d00;     text-shadow: 1px 1px 1px #a6d91b;       margin: 0;      font-weight: lighter;
+}
+
+.bigGreenButton.add { margin: 0; }
+.bigGreenButton .bLeft, .button.big-green-button:before {
+    position: absolute;     width: 6px;     height: 51px;       background: url(../images/bigGreenButtonLeft.png);
+    left: -6px;     top: 0;
+    content:""; /* won't show up without this, dunno why */
+}
+.bigGreenButton .bRight, .button.big-green-button:after {
+    position: absolute;     width: 8px;     height: 51px;       background: url(../images/bigGreenButtonRight.png);
+    right: -8px;        top: 0;
+    content:""; /* won't show up without this, dunno why */
+}
+.bigGreenButton.add .bLeft {
+    width: 34px;        background: url(../images/bigGreenButtonLeftAdd.png);       left: -34px;
+    
+}
+
+/*
+.bigYellowButton {
+    height: 59px;       background: url(../images/bigYellowButtonFill.png);     display: inline-block;
+    position: relative;     line-height: 56px;      padding: 0 11px;        margin: 0 16px 0 14px;
+    font-size: 18px;        color: #491502;     text-shadow: 1px 1px 1px #f2dc00;       font-weight: lighter;
+    border: none;
+    -webkit-transition-property: opacity
+}
+
+.bigYellowButton.arrow { margin: 0 55px 0 14px; }
+.bigYellowButton:before {
+    position: absolute;     width: 8px;     height: 59px;       background: url(../images/bigYellowButtonLeft.png);
+    left: -8px;     top: 0;     content: "";
+}
+.bigYellowButton:after {
+    position: absolute;     width: 49px;        height: 59px;       background: url(../images/bigYellowButtonRight.png);
+    right: -49px;       top: 0;     content: "";
+}
+.bigYellowButton.arrow:after {
+    position: absolute;     width: 49px;        height: 59px;       background: url(../images/bigYellowButtonRightArrow.png);
+    right: -49px;       top: 0;     content: "";
+}
+.bigYellowButton:active { opacity: .5; filter: alpha(opacity=50); }
+*/
+
+
+
+
+a.button.big-yellow-button, 
+.bigYellowButton
+{
+    height: 59px;       background: url(../images/bigYellowButtonFill.png);     display: inline-block;
+    position: relative;     line-height: 56px;      padding: 0 11px;        margin: 0 31px 0 22px;
+    font-size: 22px;        color: #002f3e;     text-shadow: 1px 1px 1px #f2dc00;       font-weight: lighter;
+    border: none;       font-family: "Maven Pro", Helvetica, Arial, sans-serif;
+    transition-property: opacity;
+    -webkit-transition-property: opacity;
+    -moz-transition-property: opacity;
+    -o-transition-property: opacity;
+}
+
+a.button.big-yellow-button.arrow, 
+.bigYellowButton.arrow 
+{
+    margin: 0 31Wpx 0 14px; 
+}
+
+a.button.big-yellow-button:before, 
+.bigYellowButton:before
+{
+    position: absolute;     width: 8px;     height: 59px;       background: url(../images/bigYellowButtonLeft.png);
+    left: -8px;     top: 0;     content: "";
+}
+
+a.button.big-yellow-button:after, 
+.bigYellowButton:after
+{
+    position: absolute;     width: 10px;        height: 59px;       background: url(../images/bigYellowButtonRight.png);
+    right: -10px;       top: 0;     content: "";
+}
+
+a.button.big-yellow-button.arrow:after,
+.bigYellowButton.arrow:after 
+{
+    position: absolute;     width: 49px;        height: 59px;       background: url(../images/bigYellowButtonRightArrow.png);
+    right: -49px;       top: 0;     content: "";
+}
+
+.big-yellow-button:active,.bigYellowButton:active
+{ 
+    opacity: .5; filter: alpha(opacity=50); 
+}
+
+#productSelectionViewEstimatorHtml, #productSelectionViewAnalystHtml{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-style: normal;
+    line-height: 2em;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-decoration: none;
+    text-indent: 8px;
+    list-style-position: outside;
+    list-style-type: square;
+    padding: 4px;
+    margin: 1px;
+}
+
+.big .form-fragment .label
+{
+    margin-top: 15px;
+    position: relative;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.big .form-fragment .gwt-TextBox,
+.big .form-fragment .gwt-PasswordTextBox
+{ 
+    width: 170px;
+    height: 30px;
+    border: 1px groove #d2d2d2;
+    border-radius: 5px;
+    font-size: 17px;
+}
+
+.big .edit-project-label
+{
+    width: 80px;
+    float: left;
+}
+
+#editProjectHouseViewInfoPanel .spacer
+{
+    height: 60px;
+}
+
+#editProjectHouseViewFinancialPanel .label
+{
+    width: 115px;
+    height: 20px;
+}
+
+#editProjectHouseViewFinancialPanel .widget
+{
+    width: 45px;
+    float: left;
+    text-align: right;
+}
+
+#editProjectHouseViewFinancialPanel .price-box
+{
+    width: 70px;
+    margin-bottom: 10px;
+}
+
+#editProjectHouseViewFinancialPanel .escalation-box
+{
+    margin-left: 20px;
+    width: 40px;
+}
+
+.edit-favorite-button
+{
+    width: 40px;
+}
+
+#editProjectHouseViewFinancialPanel .price-header
+{
+    margin-left: 200px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+    float: left;
+}
+
+.medium .form-fragment .label
+{
+    margin-top: 10px;
+    position: relative;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.medium .form-fragment .gwt-TextBox,
+.medium .form-fragment .gwt-PasswordTextBox
+{ 
+    width: 170px;
+    height: 20px;
+    border: 1px groove #d2d2d2;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.edit-project-info .centered-button
+{
+   padding-top: 10px;
+}
+
+.edit-project-info .form .widget
+{
+   width: 195px;
+}
+
+.edit-project-title
+{
+    margin-left: 75px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.grayButton
+{
+    height: 18px;
+    background: url(../images/grayButtonFill.png);
+    display: inline-block;
+    position: relative;
+    line-height: 18px;
+    padding: 0 8px;
+    margin: 1px 8px;
+    color: #333;
+    font-size: 10px;
+    font-weight: bold;
+}
+.grayButton .bLeft {
+    position: absolute;
+    width: 4px;
+    height: 18px;
+    background: url(../images/grayButtonLeft.png);
+    left: -4px;
+    top: 0;
+}
+.grayButton .bRight {
+    position: absolute;
+    width: 4px;
+    height: 18px;
+    background: url(../images/grayButtonRight.png);
+    right: -4px;
+    top: 0;
+}
+.analysisInclude {
+    width: 898px;
+    height: 100px;
+    background: #FFF url(../images/analysisIncludeBG.png) no-repeat;
+    border: 1px solid #D2D2D2;
+    border-radius: 5px;
+    text-align: right;
+    padding: 50px 20px 0;
+}
+
+.selected-panel {
+    background-color: #DBE4F1;
+    border-radius: 8px;
+}
+
+#component_panel {
+    background: url("../images/componentLibIncludeBG.jpg") no-repeat scroll 0 -12px white;
+    border: 1px solid #D2D2D2;
+    border-radius: 5px 5px 5px 5px;
+    bottom: 0px;
+    height: 338px;
+    left: 475px;
+    position: absolute;
+    width: 462px;
+    border-image: initial;
+}
+#analysis_panel {
+    width: 939px;
+    height: 95px;
+    background: #fff url(../images/analysisIncludeBG.png) no-repeat 0 -12px;
+    border: 1px solid #d2d2d2;
+    border-radius: 5px;
+    position: absolute;
+    top: 180px;
+    left: 50%;
+    margin-left: -475px;
+}
+#analysis_panel button{
+    margin-left: 25px;
+}
+#analysis_button_panel{
+    position: absolute;
+    left: 295px;
+    top: 20px;
+}
+
+#pagerPanel
+{
+    margin-left: auto;
+    margin-right: auto;
+    width: 180px;
+}
+
+#newProjectPanel
+{
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+}
+
+#project_info_panel
+{
+    position: absolute;
+    left: 50%;
+    top: 25px;
+    margin-left: -475px;
+    width: 941px;
+}
+#twoUpIncludeWrap{
+    position: absolute;
+    left: 50%;
+    margin-left: -475px;
+    top: 290px;
+}
+#editPanel h1 { display: none; }
+
+#editPanel .bigYellowButton {
+    position: absolute;     bottom: 35px;       right: 93px;
+}
+
+#favoritesPanel {
+    width: 458px;       background: #fff; border: 1px solid #d2d2d2;
+    border-radius: 5px;
+}
+#favoritesPanel > .gwt-Button {
+    position: absolute;
+    bottom: 200px;
+}
+
+#favoritesPanel > div > .gwt-HTML {
+    border: 1px solid #4c8ba0;      margin: -1px;       height: 34px;       background: url(../images/bondiBlueHeaderBG.png);
+    border-radius: 5px 5px 0 0;     font-size: 14px;        line-height: 34px;      position: relative;
+}
+#favoritesPanel > div > .gwt-HTML h1 {
+    height: 34px;       width: 300px;       background: url(../images/houseIcon.png) no-repeat 17px 0;
+    position: absolute;     bottom: 0;      left: 0;        color: #fff;        padding: 16px 0 0 67px;
+    margin: 0;      font-size: 14px;
+}
+#favoritesContainer {
+    left: 0px;
+    width: 458px;       background: #fff;
+    border-radius: 5px;
+}
+#favoritesTable {
+    width: 100%;
+}
+#favoritesTable td {
+    border-style: none;
+}
+#favoritesPager {
+    width: 200px;
+}
+p.houseDesignsCopy { margin: 22px 16px; }
+h2.houseDesignsFavTitle {
+    background: url(../images/favStar.png) no-repeat;       margin: 0 16px;     font-size: 14px;
+    padding-left: 32px;     height: 22px;       line-height: 22px;
+}
+ul.houseDesignsFavList {
+    list-style: none;       margin: 5px 16px 5px 8px;       padding: 0;
+}
+ul.houseDesignsFavList li {
+    height: 30px;       padding: 0 8px;     line-height: 30px;      background: #fff;
+    position: relative;
+}
+ul.houseDesignsFavList li.odd { background: #ededed; }
+ul.houseDesignsFavList li .editButton {
+    position: absolute;     right: 4px;     top: 5px;
+}
+
+#twoUpIncludeWrap {
+    width: 940px;       height: 340px;      position: relative;     margin-top: 20px;
+}
+#listPanel{
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.projectTable {
+    border: 1px solid #D2D2D2;
+    font-size: 12px;
+    border-spacing: 0;
+    color: #3D3D3D;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    width: 900px;
+}
+.projectTable TR {
+    background: #EFEFEF;
+}
+.projectTable TR.odd {
+    background: #FFF;
+}
+.projectTable TH {
+    height: 34px;
+    background: url(../images/bondiBlueHeaderBG.png);
+    color: #FFF;
+    text-align: left;
+    position: relative;
+}
+.projectTable TH .ffFix1 {
+    position: relative;
+    height: 34px;
+}
+.projectTable TH .ffFix2 {
+    border-top: 1px solid #4C8BA0;
+    border-bottom: 1px solid #4C8BA0;
+    height: 35px;
+    top: -2px;
+    line-height: 34px;
+    padding: 0 22px;
+    position: absolute;
+    margin: 0;
+    left: -1px;
+    right: -1px;
+}
+.projectTable TH.first .ffFix2 {
+    border-left: 1px solid #4C8BA0;
+    left: -2px;
+    border-radius: 5px 0 0 0;
+}
+.projectTable TH.last .ffFix2 {
+    border-right: 1px solid #4C8BA0;
+    right: -2px;
+    border-radius: 0 5px 0 0;
+}
+.projectTable TH H4 {
+    margin: 0;
+    background: url(../images/sortArrowRight.png) no-repeat right 50%;
+    position: absolute;
+    padding-right: 16px;
+}
+.projectTable TH H4.sorted {
+    background: url(../images/sortArrowDown.png) no-repeat right 50%;
+}
+.projectTable TD {
+    height: 41px;
+    padding: 0 22px;
+}
+.projectTable TD A {
+    color: #0052AF;
+}
+.projectTable TR:last-child {
+    border-radius: 0 0 5px 5px;
+}
+.projectTable TR:last-child TD:first-child {
+    border-radius: 0 0 0 5px;
+}
+.projectTable TR:last-child TD:last-child {
+    border-radius: 0 0 5px 0;
+}
+
+
+/** Example rules used by the template application (remove for your app) 
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+  color: #777777;
+  margin: 40px 0px 70px;
+  text-align: center;
+}
+
+h2 {
+  text-align: center;
+}
+*/
+
+.sendButton {
+    display: block;
+    font-size: 16pt;
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+    width: 400px;
+}
+
+.dialogVPanel {
+    margin: 5px;
+}
+
+.serverResponseLabelError {
+    color: red;
+}
+
+/** Set ids using widget.getElement().setId("idOfElement") */
+#closeButton {
+    margin: 15px 6px 6px;
+}
+
+.gwt-PopupPanelGlass{
+    background-color: Black;
+    opacity: 0.6;
+}
+
+.gwt-DecoratedPopupPanel
+{ 
+    /*the outside of the popup*/
+    z-index: 80;
+}
+
+.gwt-DecoratedPopupPanel .popupContent { 
+    /* Content */
+    background-color: White;
+    padding: 10px;
+}
+.gwt-DecoratedPopupPanel .popupTopLeft { 
+    /*the top left cell */
+}
+.gwt-DecoratedPopupPanel .popupTopLeftInner { 
+    /*the inner element of the cell */
+}
+.gwt-DecoratedPopupPanel .popupTopCenter { 
+    /*the top center cell*/
+}
+.gwt-DecoratedPopupPanel .popupTopCenterInner { 
+    /*the inner element of the cell*/
+}
+.gwt-DecoratedPopupPanel .popupTopRight { 
+    /*the top right cell*/
+}
+.gwt-DecoratedPopupPanel .popupTopRightInner { 
+    /*the inner element of the cell*/
+
+}
+.gwt-DecoratedPopupPanel .popupMiddleLeft { 
+    /*the middle left cell*/
+}
+.gwt-DecoratedPopupPanel .popupMiddleLeftInner { 
+    /*the inner element of the cell*/
+}
+.gwt-DecoratedPopupPanel .popupMiddleCenter { 
+    /*the middle center cell*/
+
+}
+.gwt-DecoratedPopupPanel .popupMiddleCenterInner { 
+    /*the inner element of the cell*/
+}
+.gwt-DecoratedPopupPanel .popupMiddleRight { 
+    /*the middle right cell*/
+}
+.gwt-DecoratedPopupPanel .popupMiddleRightInner { 
+    /*the inner element of the cell*/
+}
+.gwt-DecoratedPopupPanel .popupBottomLeft { 
+    /*the bottom left cell*/
+}
+.gwt-DecoratedPopupPanel .popupBottomLeftInner { 
+    /*the inner element of the cell*/
+}
+.gwt-DecoratedPopupPanel .popupBottomCenter { 
+    /*the bottom center cell*/
+}
+.gwt-DecoratedPopupPanel .popupBottomCenterInner { 
+    /*the inner element of the cell*/
+}
+.gwt-DecoratedPopupPanel .popupBottomRight { 
+    /*the bottom right cell*/
+}
+.gwt-DecoratedPopupPanel .popupBottomRightInner { 
+    /*the inner element of the cell*/
+}
+
+/* MORE STUFF that Stephen added */
+
+.tooltipPopUp
+{
+    border: 2px solid #BECDD1;
+    background-color: #D1E5EB;
+    padding: 5px 5px 5px 15px;
+    z-index: 1000;
+}
+
+#runAsDropList
+{
+    color: black;
+}
+
+/***************************************************/
+/*** Login / Registration Page                   ***/
+/***************************************************/
+
+
+.login.page .centered-button,
+.registration.page .centered-button
+{
+    position: relative;
+    left: -14px;
+}
+
+.login.page  .widgets
+{
+    float:none;
+    width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.registration.page  .widgets
+{
+    float:none;
+    width: 370px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login.page .labeled-pair .label,
+.registration.page .labeled-pair .label,
+{
+    position:relative;
+    top: -8px;
+}
+
+.registration.page .labeled-pair
+{
+    margin-bottom: 5px;
+}
+
+.login.page  .widgets .gwt-TextBox,
+.login.page  .widgets .gwt-PasswordTextBox,
+.registration.page  .widgets .gwt-TextBox,
+.registration.page  .widgets .gwt-PasswordTextBox
+{
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.login.page  .widgets .gwt-TextBox:focus,
+.login.page  .widgets .gwt-PasswordTextBox:focus,
+.registration.page  .widgets .gwt-TextBox:focus,
+.registration.page  .widgets .gwt-PasswordTextBox:focus
+{
+    margin-top: none;
+    margin-bottom: none;
+}
+
+.login.page .form > .form-fragment
+{
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.registration.page .form > .form-fragment
+{
+    width: 300px;
+    margin-right: auto;
+}
+
+.login.page,
+.registration.page
+{
+/*     width: 1000px; */
+    float: left;
+    margin-top: 10px; 
+/*     height: 450px; */
+    padding-left:20px;
+    padding-top: 10px;
+    
+    border: none;
+}
+
+.login.page .info.panel,
+.registration.page .info.panel
+{
+    float: right;
+    width:450px;
+    
+}
+
+.login.page .form.panel
+{
+    float: right;
+    width: 420px;
+    margin-left: 60px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.registration.page .form.panel
+{
+    float: right;
+    width: 420px;
+    margin-left: 60px;
+    margin-top: 0px;
+    text-align: center;
+}
+
+.registration.page .form.panel table
+{
+    margin-top: 10px;
+}
+
+.registration.page .form.panel h1
+{
+    margin-bottom: 15px;
+    text-align: left;
+    font-size: 20px;
+}
+
+.login.page .info.panel ul,
+.registration.page .info.panel ul,
+.header-bullet-list ul
+{
+    list-style-type: circle;
+    list-style-position: outside;
+}
+
+.login.page .info.panel ul li,
+.registration.page .info.panel ul li,
+.header-bullet-list li
+{
+    margin-left: 24px;
+}
+
+#registrationregistrationButton
+{
+    width: 260px;
+}
+
+.registration.medium .form-fragment .label
+{
+    margin-top: 0px;
+}
+
+.registration.page li
+{
+    margin-top: 5px;
+}
+.registration.page p
+{
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+#registrationregistrationImage
+{
+    margin-left: 0px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size:80%;
+    font-weight: bold;
+    text-align:center;
+}
+
+.registration.page .page-header-text
+{
+    font-size: 27px;
+}
+
+.registration.page li h2
+{
+    font-size:17px;
+    font-weight: normal;
+}
+
+/* **************************************/
+/* Usage Info CSS */
+/* **************************************/
+#EditUsageDisplay-customPanelId
+{
+    margin:15px;
+}
+
+#EditUsageDisplay-customPanelId .gwt-CheckBox
+{
+    padding-top: 5px;
+    margin-right:10px;
+}
+
+#EditUsageDisplay-grid
+{
+    margin-left:15px;    
+}
+
+#EditUsageDisplay-grid .gwt-HTML
+{
+    font-weight: bold;
+    font-size: 13px;
+}
+
+#EditUsageDisplay-grid .gwt-TextArea
+{
+    width:280px;
+    height:70px;
+    margin-bottom:5px;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding:1em;
+    
+    border:2px solid #ABBCCF;
+    border-top: 4px solid #ABBCCF;
+   
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+/* **************************************/
+/* end of Usage Info CSS */
+/* **************************************/
+
+/* **************************************/
+/* Component Library CSS */
+/* **************************************/
+
+#editComponentLibraryToolbarPanel
+{
+    margin-right: 5px;
+}
+
+/* **************************************/
+/* end of Component Library CSS */
+/* **************************************/
+
+/* **************************************/
+/* Variations CSS */
+/* **************************************/
+#ComponentConfiguration-CountLabel
+{
+    color: #1D576A;
+    font-size: 15px;
+    font-weight: bold;
+    
+    border-color: #ABBCCF;
+    border-radius: 8px 8px 8px 8px;
+    border-style: solid;
+    border-width: 2px;
+    
+    margin-bottom: 5px;
+    margin-left: 10px;
+    padding: 5px;
+    text-align: center;
+    vertical-align: middle;
+    
+    width: 200px;
+}
+
+/* **************************************/
+/* End of Variations CSS */
+/* **************************************/
+
+/* **************************************/
+/* Show Project View CSS */
+/* **************************************/
+.comp-library-tour-button
+{
+    position: relative;
+    left: 175px;
+    top: 310px;
+}
+
+/* **************************************/
+/* End of Show Project View CSS */
+/* **************************************/
+
+#UserSettings-PanelId
+{
+    width: 360px;
+}
+
+#UserSettings-PanelId .labeled-pair
+{
+    float: left;
+    text-align: left;
+    width: 350px;
+}
+
+#UserSettings-PanelId .labeled-pair .label
+{
+    float: left;
+    text-align: left;
+    width: 130px;
+}
+
+#UserSettings-PanelId .labeled-pair .widget
+{
+    float: left;
+    min-width: 0;
+}
+
+
+#UserSettings-PanelId .form .widget.gwt-TextArea,
+#UserSettings-PanelId .form .widget.gwt-TextBox,
+#UserSettings-PanelId .form .widget.gwt-PasswordTextBox
+{
+    width: 180px;
+    text-align: left;
+}
+
+.out-of-date-flash
+{
+    text-align: center;
+    border: 2px solid black;
+}
+
+.run-as-dialog .run-as-pair {
+    float: left;
+    width: 100%;
+}

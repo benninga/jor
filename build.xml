@@ -1,0 +1,1000 @@
+<?xml version="1.0"?>
+<project name="jor" default="dist" basedir=".">
+
+    <!--
+    =================================================================================
+    === Properties Setting Section                        ====
+    =================================================================================
+     -->
+    <import file="global-properties.xml"/>
+
+    <echo message="Maven repository at: ${m2}" />
+
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath location="${m2}/ant-contrib/ant-contrib/${ant.contrib.version}/ant-contrib-${ant.contrib.version}.jar" />
+    </taskdef>
+
+    <condition property="full_build">
+        <not>
+            <isset property="fast_build"/>
+        </not>
+    </condition>
+
+    <echo message="Operating system is ${os.name}" />
+    <condition property="on.linux">
+        <or>
+            <equals arg1="${os.name}" arg2="Linux"/>
+            <equals arg1="${os.name}" arg2="Mac OS X" />
+        </or>
+    </condition>
+
+    <condition property="doSystemTestsLocally">
+        <or>
+            <equals arg1="${system.test.host}" arg2="localhost" />
+            <equals arg1="${system.test.host}" arg2="127.0.0.1" />
+        </or>
+    </condition>
+
+    <path id="shared.classpath">
+        <fileset dir="${war.lib}" includes="**/*.jar"/>
+    </path>
+
+    <path id="server.classpath">
+        <pathelement path="${shared.classes.dir}" />
+        <fileset dir="${war.lib}" includes="**/*.jar"/>
+    </path>
+
+    <path id="running.server.classpath">
+        <pathelement location="${war.classes.dir}" />
+
+        <fileset dir="${war.lib}" includes="**/*.jar" excludes=""/>
+    </path>
+
+    <path id="eclipse.compile.classpath">
+        <path refid="server.test.classpath" />
+        <path refid="shared.test.classpath" />
+    </path>
+
+    <!-- Compile and Build classpath (including 3rd party libraries) -->
+    <path id="server.test.classpath">
+        <path refid="server.classpath" />
+
+        <pathelement location="${shared.classes.dir}" />
+        <pathelement location="${shared.test.classes.dir}" />
+        <pathelement location="${server.classes.dir}" />
+        <pathelement location="${server.test.classes.dir}" />
+        <pathelement location="${junit.jar.file}" />
+        <pathelement location="${jersey.client.jar}" />
+    </path>
+
+    <path id="shared.test.classpath">
+        <path refid="shared.classpath" />
+        <pathelement location="${shared.classes.dir}" />
+        <pathelement location="${shared.test.classes.dir}" />
+        <pathelement location="${junit.jar.file}" />
+        <pathelement location="${easymock.jar}" />
+        <pathelement location="${objenesis.jar}" />
+        <pathelement location="${cglib.jar}" />
+    </path>
+
+    <path id="system.test.classpath">
+        <path refid="shared.test.classpath" />
+        <path refid="server.test.classpath" />
+        <pathelement location="${system.test.classes.dir}" />
+
+        <fileset dir="${m2}/org/mortbay/jetty" includes="**/*.jar" />
+        <fileset dir="${m2}/org/eclipse/jdt/core" includes="**/*.jar" />
+        <fileset dir="${m2}/javax/servlet/servlet-api" includes="**/*.jar" />
+        <fileset dir="${m2}/tomcat" includes="**/*.jar" />
+        <fileset dir="${m2}/org/apache/commons" includes="**/*.jar" />
+        <fileset dir="${httpclient.dir}" includes="**/*.jar" />
+
+    </path>
+
+    <path id="web.test.classpath">
+
+        <!-- path refid="shared.test.classpath" />
+        <path refid="server.test.classpath" / -->
+
+        <path refid="system.test.classpath" />
+
+        <pathelement location="${web.test.classes.dir}" />
+
+        <pathelement location="${junit.jar.file}" />
+
+        <fileset dir="${m2}/org/seleniumhq/selenium/" includes="**/*.jar" />
+
+        
+    </path>
+
+    <path id="cobertura.classpath">
+        <fileset dir="${m2}">
+            <include name="net/sourceforge/cobertura/cobertura/${cobertura.version}/cobertura-${cobertura.version}.jar" />
+            <include name="oro/oro/2.0.8/oro-2.0.8.jar" />
+            <include name="asm/asm/3.0/asm-3.0.jar" />
+            <include name="asm/asm-attrs/1.5.3/asm-attrs-1.5.3.jar" />
+            <include name="asm/asm-tree/3.0/asm-tree-3.0.jar" />
+            <include name="log4j/log4j/${log4j.version}/log4j-${log4j.version}.jar" />
+        </fileset>
+    </path>
+
+    <path id="cobertura.instrumented.classpath">
+        <path refid="cobertura.classpath" />
+        <pathelement location="${instrumented.classes.dir}" />
+        <path refid="shared.test.classpath" />
+        <path refid="server.test.classpath" />
+    </path>
+
+    <macrodef name="simple_compile_java">
+        <attribute name="debug" />
+        <attribute name="sourcedir" />
+        <attribute name="outputdir" />
+        <attribute name="classpath" />
+
+        <sequential>
+            <javac srcdir="@{sourcedir}" destdir="@{outputdir}" classpathref="@{classpath}"
+                   debug="@{debug}" includeantruntime="false" source="1.7">
+                <compilerarg value="-Xlint" />
+                <!-- <compilerarg value="-Werror" /> -->
+                <include name="**" />
+            </javac>
+        </sequential>
+    </macrodef>
+
+    <!-- Verify the project code base and installation. Ensure critical items exist, etc. -->
+    <target name="verify-install" description="Verify the installation (incomplete)" if="full_build">
+
+        <!-- Make sure that the resources directory exists and in correct location -->
+        <fail message="Property src.resources is not pointing to a valid directory: ${src.resources}">
+            <condition>
+                <not>
+                    <available file="${src.resources}" type="dir" />
+                </not>
+            </condition>
+        </fail>
+
+    </target>
+
+    <target name="init-build-directories" if="full_build">
+
+        <!-- Create the time stamp -->
+        <tstamp />
+
+        <!-- Create the build directory structure used by compile -->
+        <mkdir dir="${build}" />
+        <mkdir dir="${classes.dir}" />
+        <mkdir dir="${logs.dir}" />
+        <mkdir dir="${war}" />
+        <mkdir dir="${war.inf}" />
+        <mkdir dir="${war.classes.dir}" />
+        <mkdir dir="${war.classes.dir}/images" />
+        <mkdir dir="${war.inf}/lib" />
+        <mkdir dir="${junit}" />
+        <mkdir dir="${check.style.result.dir}" />
+        <mkdir dir="${temp.dir}" />
+    </target>
+
+    <target name="update-product-version" depends="init-build-directories">
+        <mkdir dir="${product.version.dir}" />
+        <mkdir dir="${war.classes.dir}/org/jor/client" />
+
+
+
+        <propertyfile file="${product.version.file}">
+            <entry key="majorNumber" value="${current.major.number}" />
+            <entry key="minorNumber" value="${current.minor.number}" />
+            <entry key="patchNumber" value="${current.patch.number}" />
+            <entry key="buildNumber" value="${current.build.number}" />
+        </propertyfile>
+        <copy file="${product.version.file}" todir="${server.classes.dir}/org/jor/client" />
+        <copy file="${product.version.file}" todir="${war.classes.dir}/org/jor/client" />
+    </target>
+
+    <target name="init-eclipse" if="full_build">
+        <property name="local.project.name" value="jor_${local.dir.name}" />
+        
+        <if>
+            <not>
+                <available file=".project" />
+            </not>
+            <then>
+                <echo message="Setting up the .project file" />
+                <copy description="Create an Eclipse project file if it is missing"
+                      file="${eclipse.files.dir}/.project" tofile=".project" overwrite="false" />
+                <replace file=".project" token="P_ECLIPSE_PROJECT_NAME" value="${local.project.name}" />
+            </then>
+        </if>
+
+        <echo message="Updating the .classpath file" />
+        <copy description="Create an Eclipse classpath file if it is missing"
+              file="${eclipse.files.dir}/.classpath" tofile=".classpath" overwrite="false" />
+
+        <property name="settings.file" value="com.google.gdt.eclipse.core.prefs" />
+        <if>
+            <not>
+                <available file=".settings/${settings.file}" />
+            </not>
+            <then>
+                <echo message="Setting up the project settings file" />
+                <mkdir dir=".settings" />
+                <copy description="Create (if missing) an Eclipse settings file to remove warnings"
+                      file="${eclipse.files.dir}/${settings.file}"
+                      tofile=".settings/${settings.file}" overwrite="false" />
+            </then>
+        </if>
+
+        <property name="ant.building.file" value=".externalToolBuilders/Ant Building.launch" />
+        <if>
+            <not>
+                <available file="${ant.building.file}" />
+            </not>
+            <then>
+                <echo message="Setting up the Ant Building builder" />
+                <copy description="Create (if missing) launch file for Ant Building"
+                      file="${eclipse.files.dir}/Ant Building.launch"
+                      tofile="${ant.building.file}" overwrite="false" />
+                <replace file="${ant.building.file}" token="P_ECLIPSE_PROJECT_NAME" value="${local.project.name}" />
+            </then>
+        </if>
+
+        <property name="launch.file" value="${local.project.name}_run_server.launch" />
+        <if>
+            <not>
+                <available file="${launch.file}" />
+            </not>
+            <then>
+                <echo message="Setting up the GWT Launch Configuration file" />
+                <copy description="Create an Eclipse project file if it is missing"
+                      file="${eclipse.files.dir}/run_server.launch" tofile="${launch.file}" overwrite="false" />
+                <replace file="${launch.file}" token="P_ECLIPSE_PROJECT_NAME" value="${local.project.name}" />
+             </then>
+        </if>
+
+    </target>
+
+    <target name="init-configuration-files" depends="init-build-directories" if="full_build">
+
+        <echo message="Copying application configuration files from: ${app.config.dir}" />
+        <copy file="${app.config.dir}/log4j.properties" todir="${server.classes.dir}" overwrite="true" />
+
+        <for param="hibernate-file">
+            <path>
+                <fileset dir="${app.config.dir}" includes="*-${db.type}-hibernate.cfg.xml" />
+            </path>
+            <sequential>
+                <local name="file-name"/>
+                <basename file="@{hibernate-file}" property="file-name" />
+                <echo message="Setting configuration file: ${file-name}" />
+                <!-- Execute the command to check if the migration has been run -->
+                <local name="server-full-file-name" />
+                <property name="server-full-file-name" value="${server.classes.dir}/${file-name}" />
+                <copy file="@{hibernate-file}" tofile="${server-full-file-name}" overwrite="true" />
+                <echo message="Updating Hibernate configuration file: ${server-full-file-name}" />
+                <replace file="${server-full-file-name}" token="P_HOST_NAME" value="${db.host.name}" />
+                <replace file="${server-full-file-name}" token="P_DB_NAME" value="${db.db.name}" />
+                <replace file="${server-full-file-name}" token="P_USER_NAME" value="${db.user.name}" />
+                <replace file="${server-full-file-name}" token="P_PASSWORD" value="${db.user.password}" />
+                <replace file="${server-full-file-name}" token="P_SHOW_SQL_STRING" value="${hibernate.show.sql}" />
+                <echo message="Copying hibernate configuration file to war directory: ${war.classes.dir}" />
+                <copy file="${server-full-file-name}" todir="${war.classes.dir}" overwrite="true" />
+            </sequential>
+        </for>
+
+        <!-- Update LOG configuration file -->
+        <echo message="Updating Log file location based on properties" />
+        <replace file="${server.classes.dir}/log4j.properties" token="P_LOG_FILE_NAME" value="${log.file.name}" />
+        <echo message="Copying configuration files from compile directory to WAR directory" />
+        <copy file="${server.classes.dir}/log4j.properties" todir="${war.classes.dir}" overwrite="true" />
+    </target>
+
+    <target name="init-copy-resources" depends="init-build-directories, init-configuration-files" if="full_build">
+
+        <copy description="Copy the basic web content to the WAR directory" todir="${war}">
+            <fileset dir="${src.web}">
+                <include name="**/*.*" />
+            </fileset>
+        </copy>
+
+        <mkdir dir="${war}/css" />
+        <mkdir dir="${build.css}" />
+        
+        <copy description="Copy the generated css to the WAR directory" todir="${war}/css">
+            <fileset dir="${build.css}">
+                <include name="**/*.*" />
+            </fileset>
+        </copy>
+
+        <copy description="Copies the basic resources to the WAR directory" todir="${server.classes.dir}/">
+            <fileset dir="${src.resources}">
+                <include name="**/*.*" />
+                <include name="*.*" />
+            </fileset>
+        </copy>
+
+        <copy description="Copies the test resources to the test classes directory" todir="${server.test.classes.dir}/">
+            <fileset dir="${src.tests.server.junit}">
+                <include name="**/*.xml" />
+            </fileset>
+        </copy>
+
+    </target>
+
+    <macrodef name="copy-jars-to-war">
+        <attribute name="dir" />
+        <sequential>
+            <copy todir="${war.lib}" flatten="true">
+                <fileset dir="@{dir}" includes="**/*.jar" excludes="**/*-javadoc.jar,**/*-sources.jar"/>
+            </copy>
+        </sequential>
+    </macrodef>
+
+
+    <target name="download-3rdparty" description="download 3rd-party dependencies" if="full_build">
+
+        <condition property="maven.executable" value="mvn">
+            <not>
+                <os family="windows"/>
+            </not>
+        </condition>
+        <condition property="maven.executable" value="mvn.bat">
+            <os family="windows"/>
+        </condition>
+        <echo message="Maven executable is '${maven.executable}'" />
+
+        <!-- Trigger a maven download of any necessary 3rd party libraries-->
+        <exec executable="${maven.executable}" failifexecutionfails="true" failonerror="true">
+            <arg value="dependency:sources"/>
+        </exec>
+    </target>
+
+    <target name="init-copy-jars" depends="verify-install, init-build-directories,
+                                           download-3rdparty" if="full_build">
+
+        <!-- Copy 3rd-party JAR files from Maven to the WAR library directory-->
+        <copy-jars-to-war dir="${m2}/postgresql/postgresql/${postgresql.version}" />
+        <copy-jars-to-war dir="${m2}/org/hibernate/hibernate-core/${hibernate.version}" />
+        <copy-jars-to-war dir="${m2}/net/sf/ehcache/ehcache-core/${ehcache.version}" />
+        <copy-jars-to-war dir="${m2}/org/hibernate/hibernate-c3p0/${hibernate.version}" />
+        <copy-jars-to-war dir="${m2}/javax/servlet/servlet-api/${javax.servlet.version}" />
+        <copy-jars-to-war dir="${m2}/javassist/javassist/${javassist.version}" />
+        <copy-jars-to-war dir="${m2}/dom4j/dom4j/${dom4j.version}" />
+        <copy-jars-to-war dir="${m2}/commons-collections/commons-collections/${commons.collections.version}" />
+        <copy-jars-to-war dir="${m2}/antlr/antlr/${antlr.version}" />
+        <copy-jars-to-war dir="${m2}/org/hsqldb/hsqldb/${hsqldb.version}" />
+        <copy-jars-to-war dir="${m2}/javax/transaction/jta/${jta.version}" />
+        <copy-jars-to-war dir="${m2}/c3p0/c3p0/${c3p0.version}" />
+        <copy-jars-to-war dir="${m2}/xml-apis/xml-apis/${xml.apis.version}" />
+        <copy-jars-to-war dir="${m2}/org/slf4j/slf4j-api/${slf4j.version}" />
+        <copy-jars-to-war dir="${m2}/org/slf4j/slf4j-log4j12/${slf4j.log4j.version}" />
+        <copy-jars-to-war dir="${m2}/log4j/log4j/${log4j.version}" />
+        <copy-jars-to-war dir="${javax.validation.dir}" />
+        <copy-jars-to-war dir="${m2}/commons-io/commons-io/${commons.io.version}" />
+
+        <copy-jars-to-war dir="${m2}/com/sun/jersey/jersey-core/${jersey.version}" />
+        <copy-jars-to-war dir="${m2}/com/sun/jersey/jersey-server/${jersey.version}" />
+        <copy-jars-to-war dir="${m2}/com/sun/jersey/contribs/jersey-multipart/${jersey.version}" />
+        <copy-jars-to-war dir="${m2}/org/jvnet/mimepull/mimepull/${jersey.version}" />
+        <copy-jars-to-war dir="${m2}/asm/asm/${asm.version}" />
+        <copy-jars-to-war dir="${m2}/freemarker/freemarker/${freemarker.version}" />
+        <copy-jars-to-war dir="${m2}/javax/ws/rs/jsr311-api/${jsr311-api.version}" />
+        <copy-jars-to-war dir="${m2}/org/codehaus/jackson/jackson-core-asl/${jackson.version}" />
+        <copy-jars-to-war dir="${m2}/org/codehaus/jackson/jackson-mapper-asl/${jackson.version}" />
+        <copy-jars-to-war dir="${m2}/org/codehaus/jackson/jackson-jaxrs/${jackson.version}" />
+
+        <!-- Google Guava -->
+        <copy file="${guava.jar}" todir="${war.lib}"/>
+        
+        <!-- iText related JAR files -->
+        <copy-jars-to-war dir="${m2}/com/itextpdf/itextpdf/${itext.version}" />
+        <copy-jars-to-war dir="${m2}/bouncycastle/bcmail-jdk14/138" />
+        <copy-jars-to-war dir="${m2}/bouncycastle/bcprov-jdk14/138" />
+
+        <!-- email related Jar files -->
+        <copy-jars-to-war dir="${m2}/javax/mail/mail/${javax.mail.version}" />
+        <copy-jars-to-war dir="${m2}/javax/mail/mailapi/${javax.mailapi.version}" />
+        <!--copy-jars-to-war dir="${m2}/javax/activation/activation/${activation.version}" / -->
+        <copy tofile="${war.lib}/activation.jar" file="${m2}/javax/activation/activation/${activation.version}/activation-${activation.version}.jar" />
+
+        <copy-jars-to-war dir="${httpclient.dir}" />
+        <copy-jars-to-war dir="${httpcore.dir}" />
+        <copy-jars-to-war dir="${m2}/commons-logging/commons-logging/1.1.1" />
+        <copy-jars-to-war dir="${m2}/commons-codec/commons-codec/1.3" />
+        
+        <!-- Google Visualization (Chart) API -->
+        <copy-jars-to-war dir="${google.visualization.dir}" />
+        <copy-jars-to-war dir="${commons.lang.dir}" />
+        <copy-jars-to-war dir="${icu4j.dir}" />
+        <copy-jars-to-war dir="${opencsv.dir}" />
+        
+    </target>
+
+    <!-- Initialize the environment, create direcotires, basic copy of items, etc. -->
+    <target name="init-basic-files"  if="full_build"
+            depends="init-eclipse, verify-install, init-build-directories, init-copy-resources,
+                     update-web-xml, update-product-version">
+        <echo message="Basic Files initialization is complete" />
+
+    </target>
+
+    <target name="init" depends="init-basic-files, init-copy-jars"  unless="fast_build">
+        <echo message="Build structure initialization is complete" />
+    </target>
+
+    <target name="-check-compile-shared-java">
+        <uptodate property="compile.shared.not.required">
+            <srcfiles dir="${src.java.shared}" includes="**/*.java" />
+            <globmapper from="*.java" to="${shared.classes.dir}/*.class" />
+        </uptodate>
+    </target>
+
+    <target name="compile-shared" depends="-check-compile-shared-java, init"
+            unless="compile.shared.not.required">
+        <mkdir dir="${shared.classes.dir}" />
+        <simple_compile_java debug="${java.compile.debug}" outputdir="${shared.classes.dir}"
+                             sourcedir="${src.java.shared}" classpath="shared.classpath" />
+    </target>
+
+    <target name="check-compile-server-java">
+        <uptodate property="compile.server.not.required">
+            <srcfiles dir="${src.java.server}" includes="**/*.java" />
+            <globmapper from="*.java" to="${server.classes.dir}/*.class" />
+        </uptodate>
+    </target>
+
+    <target name="compile-server" depends="compile-shared, check-compile-server-java, init"
+            unless="compile.server.not.required">
+        <mkdir dir="${server.classes.dir}" />
+        <simple_compile_java debug="${java.compile.debug}" outputdir="${server.classes.dir}"
+                             sourcedir="${src.java.server}" classpath="server.classpath" />
+    </target>
+
+    <target name="update-web-xml" depends="init-copy-resources">
+
+        <copy file="${src.web}/WEB-INF/web.xml" todir="${war}/WEB-INF" overwrite="true"/>
+        <echo message="Updating Path in web.xml" />
+        <replace file="${war}/WEB-INF/web.xml" token="P_SERVER_HOST_URL" value="${server.host.url}" />
+        <echo message="Updating database sources in web.xml: ${database.sources}" />
+        <replace file="${war}/WEB-INF/web.xml" token="P_DATABASE_SOURCES" value="${database.sources}" />
+        <replace file="${war}/WEB-INF/web.xml" token="P_DEFAULT_DATABASE_SOURCE" value="${default.database.source}" />
+        <replace file="${war}/WEB-INF/web.xml" token="P_SECURITY_URL_PATTERN" value="${security.url.pattern}" />
+    </target>
+
+    <target name="copy-classes-to-war" depends="compile-server">
+        <echo message="Copying classes to WAR directory" />
+        <copy description="Shared classes and resources" todir="${war.classes.dir}">
+            <fileset dir="${shared.classes.dir}">
+                <include name="**/*.*" />
+                <exclude name="**/servelet-api-*.jar"/>
+            </fileset>
+        </copy>
+        <copy description="Server classes and resources" todir="${war.classes.dir}">
+            <fileset dir="${server.classes.dir}">
+                <include name="**/*.*" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile"
+            depends="init, compile-server, update-web-xml, copy-classes-to-war"
+            description="Compile all sources of the project" />
+
+    <target name="-compile-server-junit-test-classes"
+            depends="-compile-shared-junit-test-classes, compile-server">
+
+        <mkdir dir="${test.classes.dir}" />
+        <mkdir dir="${server.test.classes.dir}" />
+        <mkdir dir="${junit.server.results.dir}" />
+        <mkdir dir="${junit.server.report.dir}" />
+
+        <simple_compile_java sourcedir="${src.tests.server.junit}"
+                             outputdir="${server.test.classes.dir}"
+                             classpath="server.test.classpath"
+                             debug="${java.compile.debug}"/>
+    </target>
+
+    <target name="-compile-shared-junit-test-classes" depends="compile-shared">
+
+        <mkdir dir="${test.classes.dir}" />
+        <mkdir dir="${shared.test.classes.dir}" />
+        <mkdir dir="${junit.shared.results.dir}" />
+        <mkdir dir="${junit.shared.report.dir}" />
+
+        <!-- build test classes -->
+        <simple_compile_java sourcedir="${src.tests.shared.junit}" outputdir="${shared.test.classes.dir}"
+                             classpath="shared.test.classpath" debug="${java.compile.debug}"/>
+    </target>
+
+    <target name="compile-junit"
+            depends="-compile-server-junit-test-classes, -compile-shared-junit-test-classes" />
+
+    <macrodef name="test-junit-shared-macro">
+        <attribute name="classpath" />
+        <sequential>
+            <junit dir="${basedir}" fork="true" forkmode="once" printsummary="yes" haltonfailure="false"
+                   tempdir="${junit.shared.results.dir}" errorproperty="junit.shared.test.failed"
+                   failureproperty="junit.shared.test.failed" maxmemory="1024M">
+
+                <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.data.file}" />
+                <classpath refid="@{classpath}" />
+                <formatter type="xml" />
+                <batchtest fork="yes" todir="${junit.shared.results.dir}">
+                    <fileset dir="${src.tests.shared.junit}">
+                        <include name="**/*Test*.java" />
+                        <exclude name="**/*Abstract*.java" />
+                    </fileset>
+                </batchtest>
+            </junit>
+        </sequential>
+    </macrodef>
+
+    <target name="-test-junit-shared" depends="-compile-shared-junit-test-classes" unless="junit.test.skip">
+
+        <test-junit-shared-macro classpath="shared.test.classpath"/>
+
+        <junitreport todir="${junit.shared.results.dir}">
+            <fileset dir="${junit.shared.results.dir}">
+                <include name="TEST-*.xml" />
+            </fileset>
+            <report todir="${junit.shared.results.dir}" />
+        </junitreport>
+        <echo message="Results are here: ${junit.shared.results.dir}/index.html" />
+    </target>
+
+    <macrodef name="test-junit-server-macro">
+        <attribute name="classpath" />
+        <sequential>
+            <junit dir="${basedir}" fork="true" forkmode="once" printsummary="yes" haltonfailure="false"
+                   tempdir="${junit.server.results.dir}" errorproperty="junit.server.test.failed"
+                   failureproperty="junit.server.test.failed" maxmemory="1024M">
+
+                <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.data.file}" />
+                <classpath refid="@{classpath}" />
+                <formatter type="xml" />
+                <batchtest fork="yes" todir="${junit.server.results.dir}">
+                    <fileset dir="${src.tests.server.junit}">
+                        <include name="**/*Test*.java" />
+                        <exclude name="**/AllTests.java" />
+                        <exclude name="**/BaseJdoTestClass.java" />
+                        <exclude name="**/*Abstract*.java" />
+                        <!-- TestBCrypt never fails and takes a long time. Re-enable in the future -->
+                        <exclude name="**/TestBCrypt.java" />
+                    </fileset>
+                </batchtest>
+            </junit>
+        </sequential>
+    </macrodef>
+
+    <target name="-test-junit-server" depends="-compile-server-junit-test-classes" unless="junit.test.skip">
+
+        <test-junit-server-macro classpath="server.test.classpath"/>
+
+        <junitreport todir="${junit.server.results.dir}">
+            <fileset dir="${junit.server.results.dir}">
+                <include name="TEST-*.xml" />
+            </fileset>
+            <report todir="${junit.server.results.dir}" />
+        </junitreport>
+        <echo message="Results are here: ${junit.server.results.dir}/index.html" />
+    </target>
+
+    <macrodef name="test-system-macro">
+        <attribute name="classpath" />
+        <sequential>
+            <junit dir="${basedir}" fork="true" forkmode="perTest" printsummary="yes" haltonfailure="false"
+                   tempdir="${system.test.results.dir}" errorproperty="system.test.failed"
+                   failureproperty="system.test.failed" maxmemory="1024M">
+
+                <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.data.file}" />
+                <sysproperty key="system.test.host" value="${system.test.host}" />
+                <sysproperty key="system.test.port" value="${system.test.port}" />
+                <sysproperty key="system.test.user1.name" value="${system.test.user1.name}" />
+                <sysproperty key="system.test.user1.password" value="${system.test.user1.password}" />
+                <sysproperty key="system.test.user2.name" value="${system.test.user2.name}" />
+                <sysproperty key="system.test.user2.password" value="${system.test.user2.password}" />
+                <sysproperty key="system.test.systemuser.name" value="${system.test.systemuser.name}" />
+                <sysproperty key="system.test.systemuser.password" value="${system.test.systemuser.password}" />
+                <classpath refid="@{classpath}" />
+                <formatter type="xml" />
+                <batchtest fork="yes" todir="${system.test.results.dir}">
+                    <fileset dir="${src.tests.system.junit}">
+                        <include name="**/*SystemTest*.java" />
+                        <exclude name="**/AllTests.java" />
+                        <exclude name="**/*Abstract*.java" />
+                    </fileset>
+                </batchtest>
+            </junit>
+        </sequential>
+    </macrodef>
+    
+    <target name="test-junit-server" depends="-test-junit-server"
+            description="JUnit tests for server classes">
+        <fail if="junit.server.test.failed" message="Some JUnit Tests Failed" />
+    </target>
+
+    <target name="test-junit-shared" depends="-test-junit-shared"
+            description="JUnit tests for shared classes">
+        <fail if="junit.shared.test.failed" message="Some JUnit Tests Failed" />
+    </target>
+
+    <target name="test" depends="-test-junit-shared, -test-junit-server"
+            description="Runs all autoamted tests" unless="junit.test.skip">
+        <echo message="JUnit Results can be found here: ${junit.shared.results.dir}/index.html" />
+        <echo message="JUnit Results can be found here: ${junit.server.results.dir}/index.html" />
+        <fail if="junit.server.test.failed" message="Some JUnit Tests Failed" />
+        <fail if="junit.shared.test.failed" message="Some JUnit Tests Failed" />
+    </target>
+
+    <target name="verify-code-quality" description="Verifies that the code is according to standard"
+            depends="check-style, check-eclipse-compile"/>
+
+    <target name="build" depends="verify-install, init, compile"
+            description="Build this project" />
+
+    <target name="create-war" description="Creates the WAR file of the application"
+            depends="build">
+        <!-- Create the distribution directory -->
+        <mkdir dir="${dist}" />
+        <mkdir dir="${dist}/WEB-INF/lib" />
+
+        <!-- Build our JAR files -->
+        <jar jarfile="${dist}/jor-server.jar" basedir="${server.classes.dir}" />
+        <jar jarfile="${dist}/jor-shared.jar" basedir="${shared.classes.dir}" />
+
+        <!-- Create a WAR file with all the build information -->
+        <zip destfile="${dist}/${war.file}">
+            <fileset dir="${war}" includes="**/*" />
+        </zip>
+    </target>
+
+    <target name="dist-untested" depends="build, create-war" description="generate the distribution" />
+    <target name="dist" depends="verify-code-quality, build, test, create-war" description="generate the distribution" />
+
+    <target name="clean" description="clean up">
+        <!-- Delete the ${build} and ${dist} directory trees -->
+        <delete dir="${build}" />
+        <delete dir="${dist}" />
+        <delete file="cobertura.ser" />
+        <!-- Cobertura code coverage -->
+
+        <!-- Delete the ${war} directory tree -->
+        <delete dir="${war}" />
+    </target>
+
+    <target name="cobertura-taskdef">
+        <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+    </target>
+
+    <target name="coverage-report-server" depends="compile-junit, init, cobertura-taskdef"
+            description="Run unit tests with coverage and generate report">
+
+        <delete file="${cobertura.data.file}" />
+        <delete dir="${instrumented.classes.dir}" />
+        <mkdir dir="${coverage.dir}" />
+        <mkdir dir="${instrumented.classes.dir}" />
+        <mkdir dir="${coverage.server.report.dir}" />
+
+        <cobertura-instrument todir="${instrumented.classes.dir}">
+            <fileset dir="${server.classes.dir}">
+                <include name="**/*.class" />
+                <!-- Testing BCrypt never fails and takes a long time. Remove from coverage -->
+                <exclude name="**/BCrypt.class" />
+            </fileset>
+        </cobertura-instrument>
+
+        <cobertura-instrument todir="${instrumented.classes.dir}">
+            <fileset dir="${shared.classes.dir}">
+                <include name="**/*.class" />
+            </fileset>
+        </cobertura-instrument>
+
+        <test-junit-shared-macro classpath="cobertura.instrumented.classpath"/>
+        <test-junit-server-macro classpath="cobertura.instrumented.classpath"/>
+
+        <cobertura-report format="html" destdir="${coverage.server.report.dir}"
+                          datafile="${cobertura.data.file}">
+            <fileset dir="${src.java.server}">
+                <include name="**/*.java" />
+            </fileset>
+            <fileset dir="${src.java.shared}">
+                <include name="**/*.java" />
+            </fileset>
+        </cobertura-report>
+        <zip basedir="${coverage.server.report.dir}" destfile="${report.dir}/server-coverage.zip" />
+
+        <echo message="Reports can be found here: ${coverage.server.report.dir}/index.html" />
+
+        <cobertura-check totalbranchrate="30" totallinerate="30" packagelinerate="0" packagebranchrate="0" />
+    </target>
+
+    <target name="coverage-report" depends="coverage-report-server"
+            description="Run coverage report of junit tests" />
+
+    <target name="check-style-taskdef" depends="init">
+        <fail message="To run check-style you must set that JAVA_HOME environment variable to the JDK home directory. Current value: ${env.JAVA_HOME}">
+            <condition>
+                <or>
+                    <not>
+                        <available file="${env.JAVA_HOME}" type="dir" />
+                    </not>
+                    <not>
+                        <available file="${env.JAVA_HOME}/lib/tools.jar" type="file" />
+                    </not>
+                </or>
+            </condition>
+        </fail>
+        <path id="check.style.classpath">
+            <fileset file="${m2}/antlr/antlr/${antlr.version}/antlr-${antlr.version}.jar" />
+            <fileset file="${m2}/commons-beanutils/commons-beanutils-core/1.8.3/commons-beanutils-core-1.8.3.jar" />
+            <fileset file="${m2}/commons-cli/commons-cli/1.2/commons-cli-1.2.jar" />
+            <fileset file="${m2}/com/google/collections/google-collections/1.0/google-collections-1.0.jar" />
+            <fileset file="${m2}/com/puppycrawl/tools/checkstyle/${check.style.version}/checkstyle-${check.style.version}.jar" />
+            <fileset file="${m2}/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar" />
+            <fileset file="${env.JAVA_HOME}/lib/tools.jar" />
+        </path>
+        <taskdef resource="checkstyletask.properties" classpathref="check.style.classpath" />
+    </target>
+
+
+    <target name="check-style" depends="check-style-taskdef">
+
+        <echo message="Checking Java code style &amp; conventions" />
+        <checkstyle config="${check.style.java.file}"
+                    failonviolation="false" failureProperty="check.style.failed">
+            <fileset dir="${src}" includes="**/*.java" />
+            <property key="suppressions-file" value="${check.style.java.suppressions}"/>
+
+            <formatter type="plain"/>
+            <formatter type="xml" tofile="${check.style.result.dir}/java-files-result.xml" />
+        </checkstyle>
+
+        <echo message="Checking XML and CSS files style and conventions" />
+        <checkstyle config="${check.style.xml.file}"
+                    failonviolation="false" failureProperty="check.style.failed">
+            <fileset dir="${basedir}">
+                <include name="**/*.xml" />
+                <include name="**/*.css" />
+                <exclude name="build/**" />
+                <exclude name="war/**" />
+                <exclude name="marketing/**" />
+            </fileset>
+            <property key="suppressions-file" value="${check.style.xml.suppressions}"/>
+            <formatter type="plain"/>
+            <formatter type="xml" tofile="${check.style.result.dir}/xml-files-result.xml" />
+        </checkstyle>
+
+        <echo message="Checking Translation Properties files style &amp; conventions" />
+        <checkstyle config="${check.style.i18n.file}"
+                    failonviolation="false" failureProperty="check.style.failed">
+            <fileset dir="${basedir}">
+                <include name="**/*.properties" />
+                <exclude name="build/**" />
+                <exclude name="war/**" />
+                <exclude name="marketing/**" />
+            </fileset>
+            <formatter type="plain"/>
+            <formatter type="xml" tofile="${check.style.result.dir}/i18n-result.xml" />
+        </checkstyle>
+
+        <fail if="check.style.failed" message="One or more check-style checks failed" />
+    </target>
+
+    <target name="check-eclipse-compile">
+        <!-- Uses the Eclipse compiler to check for additional code errors and warnings -->
+        <property name="eclipse.compile.classpath.property" refid="eclipse.compile.classpath" />
+        <java classname="org.eclipse.jdt.internal.compiler.batch.Main" fork="true" failonerror="true"
+              classpath="${eclipse.compiler.jar}">
+            <arg line="-d none" />
+            <arg line="-1.7" />
+            <arg value="-proceedOnError" />
+            <arg line="-classpath '${eclipse.compile.classpath.property}'" />
+            <arg line="-properties ${eclipse.compiler.options.file}" />
+            <arg value="${src.java.shared}" />
+            <arg value="${src.java.server}" />
+            <arg value="${src.tests.server.junit}" />
+            <arg value="${src.tests.shared.junit}" />
+        </java>
+    </target>
+
+    <target name="run-server" depends="compile" description="Run Web Server">
+
+        <path id="jetty.plugin.classpath" >
+            <fileset dir="${m2}/org/mortbay/jetty" includes="**/*.jar" />
+            <fileset dir="${m2}/org/eclipse/jdt/core" includes="**/*.jar" />
+            <fileset dir="${m2}/javax/servlet/servlet-api" includes="**/*.jar" />
+            <fileset dir="${m2}/tomcat" includes="**/*.jar" />
+        </path>
+        <taskdef classpathref="jetty.plugin.classpath" resource="tasks.properties" loaderref="jetty.loader" />
+
+        <jetty tempDirectory="${build}/jetty-temp">
+            <webApp name="webapp" warfile="${war}" contextpath="/" />
+        </jetty>
+    </target>
+
+    <target name="-compile-system-test-classes" depends="compile-junit"  unless="fast_build">
+
+        <mkdir dir="${test.classes.dir}" />
+        <mkdir dir="${system.test.classes.dir}" />
+        <mkdir dir="${system.test.results.dir}" />
+        <mkdir dir="${system.test.report.dir}" />
+
+        <simple_compile_java sourcedir="${src.tests.system.junit}"
+                             outputdir="${system.test.classes.dir}"
+                             classpath="system.test.classpath"
+                             debug="${java.compile.debug}"/>
+    </target>
+
+    <target name="-compile-web-test-classes" depends="compile-junit" unless="fast_build">
+
+        <mkdir dir="${test.classes.dir}" />
+        <mkdir dir="${web.test.classes.dir}" />
+        <mkdir dir="${web.test.results.dir}" />
+        <mkdir dir="${web.test.report.dir}" />
+
+        <simple_compile_java sourcedir="${src.tests.web.junit}"
+                             outputdir="${web.test.classes.dir}"
+                             classpath="web.test.classpath"
+                             debug="${java.compile.debug}"/>
+    </target>
+
+    <target name="-install-database" if="doSystemTestsLocally" unless="fast_build">
+        <echo message="Local test host, copy to WAR and install mysql" />
+        <antcall target="copy-classes-to-war"/>
+        <antcall target="install-mysql"/>
+    </target>
+
+    <target name="jetty-start" if="doSystemTestsLocally">
+        <echo message="Starting Jetty Server" />
+        <java classname="org.jor.jetty.JettyStart" classpathref="system.test.classpath" fork="true">
+            <sysproperty key="system.test.host" value="${system.test.host}" />
+            <sysproperty key="system.test.port" value="${system.test.port}" />
+            <sysproperty key="java.io.tmpdir" value="${temp.dir}"/>
+        </java>
+    </target>
+
+    <target name="-wait-for-jetty" if="doSystemTestsLocally">
+        <echo message="Waiting for server to start on port ${system.test.port}" />
+        <waitfor>
+            <socket server="${system.test.host}" port="${system.test.port}"/>
+        </waitfor>
+    </target>
+
+    <target name="jetty-stop" if="doSystemTestsLocally">
+        <echo message="Stopping Jetty server" />
+        <java classname="org.jor.jetty.JettyStop" classpathref="system.test.classpath"/>
+    </target>
+
+    <macrodef name="standard-junit-report">
+        <attribute name="todir"/>
+        <sequential>
+            <junitreport todir="@{todir}">
+                <fileset dir="@{todir}">
+                    <include name="TEST-*.xml" />
+                </fileset>
+                <report todir="@{todir}" />
+            </junitreport>
+        </sequential>
+    </macrodef>
+
+    <target name="system-test-java"
+            depends="init, -compile-system-test-classes, -install-database">
+        <echo message="${system.test.host}" />
+
+        <if>
+            <not>
+                <equals arg1="${db.type}" arg2="mysql" />
+            </not>
+            <then>
+                <fail message="System test must be run against MySQL database" />
+            </then>
+        </if>
+
+        <parallel>
+            <if>
+                <or>
+                    <equals arg1="${system.test.host}" arg2="localhost" />
+                    <equals arg1="${system.test.host}" arg2="127.0.0.1" />
+                </or>
+                <then>
+                    <echo message="Starting Jetty Server" />
+                    <java classname="org.jor.jetty.JettyStart" classpathref="system.test.classpath" fork="true">
+                        <sysproperty key="system.test.host" value="${system.test.host}" />
+                        <sysproperty key="system.test.port" value="${system.test.port}" />
+                        <sysproperty key="java.io.tmpdir" value="${temp.dir}"/>
+                    </java>
+                </then>
+            </if>
+            <sequential>
+                <if>
+                    <or>
+                        <equals arg1="${system.test.host}" arg2="localhost" />
+                        <equals arg1="${system.test.host}" arg2="127.0.0.1" />
+                    </or>
+                    <then>
+                        <echo message="Waiting for server to start on port ${system.test.port}" />
+                        <waitfor>
+                            <socket server="${system.test.host}" port="${system.test.port}"/>
+                        </waitfor>
+                    </then>
+                </if>
+
+                <echo message="Running system tests" />
+                <test-system-macro classpath="system.test.classpath"/>
+                <junitreport todir="${system.test.results.dir}">
+                    <fileset dir="${system.test.results.dir}">
+                        <include name="TEST-*.xml" />
+                    </fileset>
+                    <report todir="${system.test.results.dir}" />
+                </junitreport>
+
+                <if>
+                    <or>
+                        <equals arg1="${system.test.host}" arg2="localhost" />
+                        <equals arg1="${system.test.host}" arg2="127.0.0.1" />
+                    </or>
+                    <then>
+                        <echo message="Stopping Jetty server" />
+                        <java classname="org.jor.jetty.JettyStop" classpathref="system.test.classpath"/>
+                    </then>
+                </if>
+            </sequential>
+        </parallel>
+        <echo message="System Results: ${system.test.results.dir}/index.html" />
+        <fail if="system.test.failed" message="Some System Tests Failed" />
+    </target>
+
+    <target name="system-test" depends="system-test-java">
+    </target>
+
+    <macrodef name="load_mysql_file" description="Loads a MySQL file using the source command">
+        <attribute name="mysql.file" />
+        <attribute name="database.name" default="${db.db.name}" />
+        <sequential>
+            <path id="mysql.file.path">
+                <pathelement path="@{mysql.file}" />
+            </path>
+            <local name="mysql.file.unix"/>
+            <pathconvert targetos="unix" property="mysql.file.unix" refid="mysql.file.path"/>
+            <echo message="Loading MySQL file: ${mysql.file.unix}" />
+            <exec executable="mysql" failonerror="true" failifexecutionfails="true">
+                <arg value="-u${db.user.name}"/>
+                <arg value="-p${db.user.password}" />
+                <arg value="-D@{database.name}" />
+                <arg value="-e" />
+                <arg value="source ${mysql.file.unix}" />
+            </exec>
+        </sequential>
+    </macrodef>
+
+    <!--depends="compile-server" -->
+    <target name="hbm-export">
+        <property name="hibernate.dialect" value="org.jor.server.services.db.CustomMySQLDialect" />
+        <java classname="org.hibernate.tool.hbm2ddl.SchemaExport" fork="true">
+            <classpath>
+                <path refid="running.server.classpath"/>
+            </classpath>
+            <jvmarg value="-Dhibernate.dialect=${hibernate.dialect}"/>
+            <arg value="--text"/>
+            <arg value="--delimiter=;"/>
+            <arg value="--output=${build}/mysql-schema.sql"/>
+        </java>
+    </target>
+
+    <target name="show-properties" description="Show the important properties set for the project">
+        <property name="test.classpath" refid="test.classpath" />
+
+        <echo message="">
+    ------------------------------------------------------------
+    -- Core Properties                                        --
+    ------------------------------------------------------------
+    -- Source Resources       ${src.resources}
+    --                        ${src.java.server}
+    ------------------------------------------------------------
+    -- JUnit Location         ${junit.jar.file}
+    -- Maven Repository       ${m2}
+    ------------------------------------------------------------
+    -- Full Build Classpath: ${test.classpath}
+    ------------------------------------------------------------
+        </echo>
+    </target>
+
+</project>
