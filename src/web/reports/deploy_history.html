@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawVisualization);
+
+      function drawVisualization()
+      {
+          var spreadsheetUrl =
+        	  'https://docs.google.com/a/grabcad.com/spreadsheet/tq?key=0ArHyy6Ajq2H8dEpYNUJvM3k3LW9ncDU5V2JPSWNqcFE&gid=1&range=A1%3AC28&headers=-1';
+          var query = new google.visualization.Query(spreadsheetUrl);
+
+          // Apply query language statement.
+          query.setQuery('SELECT A, B, C');
+          
+          // Send the query with a callback function.
+          query.send(handleQueryResponse);
+      }
+
+      function handleQueryResponse(response)
+      {
+            if (response.isError())
+            {
+              alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+              return;
+            }
+  
+            var data = response.getDataTable();
+            
+            var dataView1 = new google.visualization.DataView(data);
+            dataView1.setColumns([0, 1, 2]);
+            
+            visualization = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+            var options = { 'title' : 'Deployments to Production History',
+                            'width' : 1100,
+                            'height' : 700,
+                            'legend': 'bottom',
+                            'isStacked' : 'true',
+                            hAxis : { showTextEvery: 1, slantedText: true, slantedTextAngle: 45}
+                        };
+            visualization.draw(dataView1, options);
+      }
+      
+    </script>
+  </head>
+
+  <body>
+    <!--Div that will hold the pie chart-->
+    <div id="chart_div" style="height: 500px;"></div>
+  </body>
+</html>
