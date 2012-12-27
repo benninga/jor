@@ -1,0 +1,117 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawVisualization);
+
+      /**
+        Here are the queries that should be used for auto-querying of the data.
+        SELECT week_of_year || '_' || year AS week_num, COUNT(id) AS question_count
+        FROM
+        (
+            SELECT CAST (EXTRACT(doy FROM created_at) / 7 AS integer) AS week_of_year, EXTRACT(year FROM created_at) AS year, id
+            FROM questions
+            WHERE created_at > now() - interval '60 days'
+        ) a
+        GROUP BY week_of_year, year
+        ORDER BY year ASC, week_of_year ASC
+        ;
+
+        SELECT week_of_year || '_' || year AS week_num, COUNT(id) AS answer_count
+        FROM
+        (
+            SELECT CAST (EXTRACT(doy FROM created_at) / 7 AS integer) AS week_of_year, EXTRACT(year FROM created_at) AS year, id
+            FROM answers
+            WHERE created_at > now() - interval '60 days'
+        ) a
+        GROUP BY week_of_year, year
+        ORDER BY year ASC, week_of_year ASC
+        ;
+
+        SELECT week_of_year || '_' || year AS week_num, COUNT(id) AS tutorial_count
+        FROM
+        (
+            SELECT DISTINCT CAST (EXTRACT(doy FROM created_at) / 7 AS integer) AS week_of_year, EXTRACT(year FROM created_at) AS year, id
+            FROM steps
+            WHERE created_at > now() - interval '60 days'
+        ) a
+        GROUP BY week_of_year, year
+        ORDER BY year ASC, week_of_year ASC
+        ;
+        
+      */
+      
+      function drawVisualization()
+      {
+    	      
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Week');
+            data.addColumn('number', 'Question Count');
+            data.addColumn('number', 'Answer Count');
+            data.addColumn('number', 'Tutorial Count');
+            
+            data.addRows([
+                           [ '43_2012', 33, 44,  21 ],
+                           [ '44_2012', 84, 156, 87 ],
+                           [ '45_2012', 65, 180, 90 ],
+                           [ '46_2012', 57, 130, 56 ],
+                           [ '47_2012', 64, 162, 74 ],
+                           [ '48_2012', 75, 157, 75 ],
+                           [ '49_2012', 63, 127, 71 ],
+                           [ '50_2012', 61, 100, 45 ],
+                           [ '51_2012', 61, 102, 27 ],
+                           [ '52_2012', 11, 18,  2 ],
+                          ]);
+            
+            visualization = new google.visualization.LineChart(document.getElementById('combined_chart_div'));
+            var options = { 'title' : 'Weekly Questions, Answers & Tutorials',
+                            'width' : 1100,
+                            'height' : 450,
+                            'legend': 'bottom' 
+                        };
+            visualization.draw(data, options);
+            
+            var dataView1 = new google.visualization.DataView(data);
+            dataView1.setColumns([0, 1]);
+            
+            visualization = new google.visualization.LineChart(document.getElementById('questions_chart_div'));
+            var options = { 'title' : 'Weekly Questions',
+                            'legend': 'bottom' 
+                        };
+            visualization.draw(dataView1, options);
+            
+            var dataView2 = new google.visualization.DataView(data);
+            dataView2.setColumns([0, 2]);
+            
+            visualization = new google.visualization.LineChart(document.getElementById('answers_chart_div'));
+            var options = { 'title' : 'Weekly Answers',
+                            'legend': 'bottom' 
+                        };
+            visualization.draw(dataView2, options);
+            
+            var dataView3 = new google.visualization.DataView(data);
+            dataView3.setColumns([0, 3]);
+            
+            visualization = new google.visualization.LineChart(document.getElementById('tutorials_chart_div'));
+            var options = { 'title' : 'Weekly Tutorials',
+                            'legend': 'bottom' 
+                        };
+            visualization.draw(dataView3, options);
+      }
+      
+    </script>
+  </head>
+
+  <body>
+    <div id="combined_chart_div""></div>
+    <div id="questions_chart_div""></div>
+    <div id="answers_chart_div""></div>
+    <div id="tutorials_chart_div""></div>
+  </body>
+</html>

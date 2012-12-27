@@ -45,6 +45,7 @@ public class InsiderActivityLast14Days extends BaseReport
             + "        INNER JOIN member_dimension m ON (e.member_id = m.id AND m.email NOT LIKE '%grabcad.com')"
             + "        INNER JOIN project_dimension p ON (e.project_id = p.id AND p.is_private = true)"
             + "   WHERE e.event_time > extract (epoch FROM (now() - interval '14 days'))"
+            + "     AND event_type_id != 16"
             + " ) a"
             + " GROUP by email"
             + " ORDER BY COUNT(event_type_id)";
