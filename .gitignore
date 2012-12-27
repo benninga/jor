@@ -20,4 +20,4 @@ gwt-unitCache/**
 /local.build.properties
 /src/resources/org/jor/client/VersionConstants.properties
 /prod-build.sh
-
+/test-build.sh
