@@ -8,67 +8,26 @@
       google.load('visualization', '1.0', {'packages':['corechart']});
 
       // Set a callback to run when the Google Visualization API is loaded.
-      google.setOnLoadCallback(drawVisualization);
+      google.setOnLoadCallback(loadReportData);
 
-      /**
-        Here are the queries that should be used for auto-querying of the data.
-        SELECT week_of_year || '_' || year AS week_num, COUNT(id) AS question_count
-        FROM
-        (
-            SELECT CAST (EXTRACT(doy FROM created_at) / 7 AS integer) AS week_of_year, EXTRACT(year FROM created_at) AS year, id
-            FROM questions
-            WHERE created_at > now() - interval '60 days'
-        ) a
-        GROUP BY week_of_year, year
-        ORDER BY year ASC, week_of_year ASC
-        ;
-
-        SELECT week_of_year || '_' || year AS week_num, COUNT(id) AS answer_count
-        FROM
-        (
-            SELECT CAST (EXTRACT(doy FROM created_at) / 7 AS integer) AS week_of_year, EXTRACT(year FROM created_at) AS year, id
-            FROM answers
-            WHERE created_at > now() - interval '60 days'
-        ) a
-        GROUP BY week_of_year, year
-        ORDER BY year ASC, week_of_year ASC
-        ;
-
-        SELECT week_of_year || '_' || year AS week_num, COUNT(id) AS tutorial_count
-        FROM
-        (
-            SELECT DISTINCT CAST (EXTRACT(doy FROM created_at) / 7 AS integer) AS week_of_year, EXTRACT(year FROM created_at) AS year, id
-            FROM steps
-            WHERE created_at > now() - interval '60 days'
-        ) a
-        GROUP BY week_of_year, year
-        ORDER BY year ASC, week_of_year ASC
-        ;
-        
-      */
-      
-      function drawVisualization()
+      function loadReportData()
       {
-    	      
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Week');
-            data.addColumn('number', 'Question Count');
-            data.addColumn('number', 'Answer Count');
-            data.addColumn('number', 'Tutorial Count');
-            
-            data.addRows([
-                           [ '43_2012', 33, 44,  21 ],
-                           [ '44_2012', 84, 156, 87 ],
-                           [ '45_2012', 65, 180, 90 ],
-                           [ '46_2012', 57, 130, 56 ],
-                           [ '47_2012', 64, 162, 74 ],
-                           [ '48_2012', 75, 157, 75 ],
-                           [ '49_2012', 63, 127, 71 ],
-                           [ '50_2012', 61, 100, 45 ],
-                           [ '51_2012', 61, 102, 27 ],
-                           [ '52_2012', 11, 18,  2 ],
-                          ]);
-            
+          var query = new google.visualization.Query('../datasource?queryId=6');
+          
+          // Send the query with a callback function.
+          query.send(drawVisualization);
+      }
+      
+      function drawVisualization(response)
+      {
+          if (response.isError())
+          {
+            alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+            return;
+          }
+
+          var data = response.getDataTable();
+          
             visualization = new google.visualization.LineChart(document.getElementById('combined_chart_div'));
             var options = { 'title' : 'Weekly Questions, Answers & Tutorials',
                             'width' : 1100,
