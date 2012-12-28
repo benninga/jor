@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import org.jor.rest.report.report.ActivityTypeDistribution;
 import org.jor.rest.report.report.InsiderActivityLast14Days;
 import org.jor.rest.report.report.NewUsersByWeek;
+import org.jor.rest.report.report.QuestionsAndTutorials;
 import org.jor.rest.report.report.UserActivityCohorts;
 import org.jor.rest.report.report.UserDistributionByCountry;
 import org.jor.shared.api.rest.report.ReportResourceConstants;
@@ -59,6 +60,7 @@ public class ReportResourceImpl implements ReportResource, ReportResourceConstan
         LOG.info("Processing for report id: " + reportId);
         query = (query == null) ? new Query() : query;
         
+        // FIXME: Better mapping needed
         if ("1".equals(reportId)) {
             return new UserDistributionByCountry(query).getData();
         } else if ("2".equals(reportId)) {
@@ -72,6 +74,9 @@ public class ReportResourceImpl implements ReportResource, ReportResourceConstan
         }
         else if ("5".equals(reportId)) {
             return new UserActivityCohorts(query).getData();
+        }
+        else if ("6".equals(reportId)) {
+            return new QuestionsAndTutorials(query).getData();
         }
         return new DataTable();
     }
