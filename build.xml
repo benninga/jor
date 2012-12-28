@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<project name="jor" default="dist" basedir=".">
+<project name="jor" default="dist" basedir="."
+    xmlns:props="antlib:org.apache.ant.props">
 
     <!--
     =================================================================================
@@ -13,7 +14,17 @@
     <taskdef resource="net/sf/antcontrib/antlib.xml">
         <classpath location="${m2}/ant-contrib/ant-contrib/${ant.contrib.version}/ant-contrib-${ant.contrib.version}.jar" />
     </taskdef>
-
+    
+    <target name="-init-antlib-props">
+        <!-- This requries antlib-props to be installed in Ant's library path -->
+        
+        <typedef uri="antlib:org.apache.ant.props" resource="org/apache/ant/props/antlib.xml" classpath="ant-props.jar"/>
+        <echo message="Initializing nested property expander" />
+        <propertyhelper>
+            <props:nested />
+        </propertyhelper>
+    </target>
+        
     <condition property="full_build">
         <not>
             <isset property="fast_build"/>
@@ -251,8 +262,8 @@
         </if>
 
     </target>
-
-    <target name="init-configuration-files" depends="init-build-directories" if="full_build">
+    
+    <target name="init-configuration-files" depends="-init-antlib-props, init-build-directories" if="full_build">
 
         <echo message="Copying application configuration files from: ${app.config.dir}" />
         <copy file="${app.config.dir}/log4j.properties" todir="${server.classes.dir}" overwrite="true" />
@@ -269,7 +280,23 @@
                 <local name="server-full-file-name" />
                 <property name="server-full-file-name" value="${server.classes.dir}/${file-name}" />
                 <copy file="@{hibernate-file}" tofile="${server-full-file-name}" overwrite="true" />
-                <echo message="Updating Hibernate configuration file: ${server-full-file-name}" />
+                
+                <local name="config-name" />
+                <propertyregex property="config-name" input="${file-name}"
+                               regexp="([^\-]*)-.*" select="\1" casesensitive="false" />
+                
+                <echo message="Hibernate config name is ${config-name} "/>
+                <property name="custom.db.db.name" value="${${config-name}.db.db.name}" />
+                <echo message="Database name is ${${config-name}.db.db.name}" />
+                
+                <echo message="Updating custom database properties: ${server-full-file-name}" />
+                <replace file="${server-full-file-name}" token="CP_HOST_NAME" value="${${config-name}.db.host.name}" />
+                <replace file="${server-full-file-name}" token="CP_HOST_PORT" value="${${config-name}.db.host.port}" />
+                <replace file="${server-full-file-name}" token="CP_DB_NAME" value="${${config-name}.db.db.name}" />
+                <replace file="${server-full-file-name}" token="CP_USER_NAME" value="${${config-name}.db.user.name}" />
+                <replace file="${server-full-file-name}" token="CP_PASSWORD" value="${${config-name}.db.user.password}" />
+                
+                <echo message="Updating common database properties: ${server-full-file-name}" />
                 <replace file="${server-full-file-name}" token="P_HOST_NAME" value="${db.host.name}" />
                 <replace file="${server-full-file-name}" token="P_HOST_PORT" value="${db.host.port}" />
                 <replace file="${server-full-file-name}" token="P_DB_NAME" value="${db.db.name}" />
@@ -981,8 +1008,6 @@
     </target>
 
     <target name="show-properties" description="Show the important properties set for the project">
-        <property name="test.classpath" refid="test.classpath" />
-
         <echo message="">
     ------------------------------------------------------------
     -- Core Properties                                        --
@@ -992,8 +1017,6 @@
     ------------------------------------------------------------
     -- JUnit Location         ${junit.jar.file}
     -- Maven Repository       ${m2}
-    ------------------------------------------------------------
-    -- Full Build Classpath: ${test.classpath}
     ------------------------------------------------------------
         </echo>
     </target>
