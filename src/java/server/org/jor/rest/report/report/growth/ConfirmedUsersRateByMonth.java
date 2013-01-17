@@ -19,7 +19,7 @@ public class ConfirmedUsersRateByMonth extends BaseReport
     @Override
     public DataTable getData()
     {
-        DataService service = DataService.getDataService("metrics-postgres");
+        DataService service = DataService.getDataService("prod-postgres");
         
         String sql = getTextFile("confirmed_users_by_month.sql");
         List<Object[]> rows = service.runSQLQuery(sql);
@@ -35,7 +35,9 @@ public class ConfirmedUsersRateByMonth extends BaseReport
         for (int i = 0; i < rows.size(); i ++)
         {
             Object[] row = rows.get(i);
-            String monthName = row[0] + "_" + row[1];
+            int year = ((Number)row[0]).intValue();
+            int month = ((Number)row[1]).intValue();
+            String monthName = month + "_" + year;
             Number totalSignup = (Number)row[2];
             Number unconfirmed = (Number)row[3];
             Number confirmed = (Number)row[4];
