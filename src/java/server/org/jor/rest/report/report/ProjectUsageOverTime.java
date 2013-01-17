@@ -13,7 +13,7 @@ public class ProjectUsageOverTime extends BaseReport
     @Override
     public DataTable getData()
     {
-        String sql = getTextFile("ProjectUsageOverTime.sql");
+        String sql = getTextFile("project_usage_over_time.sql");
         System.out.println("SQL is: \n" + sql);
         return null;
     }
