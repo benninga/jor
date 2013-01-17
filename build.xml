@@ -339,6 +339,13 @@
             </fileset>
         </copy>
 
+        <copy description="Copies the basic resources to the WAR directory" todir="${server.classes.dir}/">
+            <fileset dir="${src.java.server}">
+                <include name="**/*.*" />
+                <exclude name="**/*.java" />
+            </fileset>
+        </copy>
+
         <copy description="Copies the test resources to the test classes directory" todir="${server.test.classes.dir}/">
             <fileset dir="${src.tests.server.junit}">
                 <include name="**/*.xml" />
