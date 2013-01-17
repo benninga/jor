@@ -4,7 +4,8 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.TreeMap;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.jor.server.services.db.DataService;
 
@@ -15,30 +16,6 @@ import com.google.visualization.datasource.query.Query;
 
 public class UserActivityCohorts extends BaseReport
 {
-    private static final String userCohortsSql =
-              "SELECT (member_week || '_' || member_year) AS user_create_week, activity_week, COUNT(member_id) AS user_count"
-            + " FROM"
-            + " ("
-            + "     SELECT DISTINCT e.member_id AS member_id, mt.year AS member_year, mt.day_of_year / 7 AS member_week,"
-            + "            (et.day_of_year - mt.day_of_year + ((et.year - mt.year) * 365)) / 7 AS activity_week"
-            + "     FROM events e"
-            + "          INNER JOIN time_dimension et ON e.event_time = et.id"
-            + "          INNER JOIN time_dimension mt ON e.member_created_at = mt.id"
-            + "     WHERE EXTRACT (epoch FROM (now() - interval '60 days')) <= e.event_time"
-            + "       AND EXTRACT (epoch FROM (now() - interval '60 days')) <= e.member_created_at"
-            + " ) a"
-            + " GROUP BY member_year, member_week, activity_week";
-    
-    protected static final String userCreatedSql =
-              " SELECT (member_week || '_' || member_year) AS user_create_week, COUNT(member_id) AS user_count"
-            + " FROM"
-            + " ("
-            + "     SELECT m.id AS member_id, t.year AS member_year, t.day_of_year / 7 AS member_week"
-            + "     FROM member_dimension m INNER JOIN time_dimension t ON (m.member_created_at = t.id)"
-            + "     WHERE EXTRACT (epoch FROM (now() - interval '60 days')) < m.member_created_at"
-            + " ) a"
-            + " GROUP BY member_year, member_week";
-    
     private Map<String, CohortInfo> dataMap;
     
     public UserActivityCohorts(Query query)
@@ -60,35 +37,43 @@ public class UserActivityCohorts extends BaseReport
     
     private void getUserCreatedData()
     {
+        String userCreatedSql = getTextFile("user_created_by_week.sql");
+        
         DataService service = DataService.getDataService("metrics-postgres");
         
         // Get the total users created by week (our cohorts baseline)
         List<Object[]> userCreation = service.runSQLQuery(userCreatedSql);
         for (Object[] row : userCreation)
         {
-            String cohortName = (String)row[0];
-            int cohortSize = ((Number)row[1]).intValue();
+            int isoYear = ((Number)row[0]).intValue();
+            int isoWeek = ((Number)row[1]).intValue();
+            int cohortSize = ((Number)row[2]).intValue();
             
+            String cohortName = CohortInfo.cohortName(isoYear, isoWeek);
             CohortInfo info = dataMap.get(cohortName);
             if (info != null) {
                 throw new RuntimeException("Should not have seen this cohort yet: " + cohortName);
             }
-            info = new CohortInfo(cohortName, cohortSize);
+            info = new CohortInfo(isoYear, isoWeek, cohortSize);
             dataMap.put(cohortName, info);
         }
     }
     
     private void getCohortsActivityData()
     {
+        String userCohortsSql = getTextFile("user_activity_by_week.sql");
+        
         DataService service = DataService.getDataService("metrics-postgres");
         
         // Get the activity by week for cohorts
         List<Object[]> activityRows = service.runSQLQuery(userCohortsSql);
         for (Object[] row : activityRows)
         {
-            String cohortName = (String)row[0];
-            int activityWeek = ((Number)row[1]).intValue();
-            int activeUserCount = ((Number)row[2]).intValue();
+            int creationIsoYear = ((Number)row[0]).intValue();
+            int creationIsoWeek = ((Number)row[1]).intValue();
+            int activityWeek = ((Number)row[2]).intValue();
+            int activeUserCount = ((Number)row[3]).intValue();
+            String cohortName = CohortInfo.cohortName(creationIsoYear, creationIsoWeek);
             
             CohortInfo info = dataMap.get(cohortName);
             Objects.requireNonNull(info, "Cohort should not be null. Check data. " + cohortName);
@@ -146,9 +131,9 @@ public class UserActivityCohorts extends BaseReport
         addColumn("week_7",  ValueType.NUMBER, "Week 7"); // 16
         addColumn("week_7p", ValueType.NUMBER, "Week 7 %"); // 17
         
-        Map<String, CohortInfo> sorted = new TreeMap<>(dataMap);
+        Set<CohortInfo> sorted = new TreeSet<>(dataMap.values());
         
-        for (CohortInfo info : sorted.values())
+        for (CohortInfo info : sorted)
         {
             addRow(info.getData());
         }
@@ -157,14 +142,18 @@ public class UserActivityCohorts extends BaseReport
     private static class CohortInfo implements Comparable<CohortInfo>
     {
         private static final int WEEK_COUNT = 8;
-        private String cohortName;
-        private int totalUsers;
+        private final String cohortName;
+        private final Integer isoYear; // Year based on ISO 8601
+        private final Integer isoWeek; // Week of year based on ISO 8601
+        private final int totalUsers;
         private int[] weeklyTotals = new int[WEEK_COUNT];
         private int[] weeklyPercentages = new int[WEEK_COUNT];
         
-        public CohortInfo(String cohortName, int totalUsers)
+        public CohortInfo(int isoYear, int isoWeek, int totalUsers)
         {
-            this.cohortName = cohortName;
+            this.isoYear = isoYear;
+            this.isoWeek = isoWeek;
+            this.cohortName = cohortName(isoYear, isoWeek);
             this.totalUsers = totalUsers;
             
             Objects.requireNonNull(cohortName, "Cohorts name cannot be null");
@@ -205,7 +194,15 @@ public class UserActivityCohorts extends BaseReport
         @Override
         public int compareTo(CohortInfo o)
         {
-            return cohortName.compareTo(o.cohortName);
+            if (isoYear.equals(o.isoYear)) {
+                return isoWeek.compareTo(o.isoWeek);
+            }
+            return isoYear.compareTo(o.isoYear);
+        }
+        
+        protected static String cohortName(int isoYear, int isoWeek)
+        {
+            return isoWeek + "_" + isoYear;
         }
     }
 }
