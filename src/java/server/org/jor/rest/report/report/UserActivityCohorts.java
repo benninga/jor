@@ -15,7 +15,7 @@ import com.google.visualization.datasource.query.Query;
 
 public class UserActivityCohorts extends BaseReport
 {
-    private String userCohortsSql =
+    private static final String userCohortsSql =
               "SELECT (member_week || '_' || member_year) AS user_create_week, activity_week, COUNT(member_id) AS user_count"
             + " FROM"
             + " ("
@@ -29,7 +29,7 @@ public class UserActivityCohorts extends BaseReport
             + " ) a"
             + " GROUP BY member_year, member_week, activity_week";
     
-    private String userCreatedSql =
+    protected static final String userCreatedSql =
               " SELECT (member_week || '_' || member_year) AS user_create_week, COUNT(member_id) AS user_count"
             + " FROM"
             + " ("
