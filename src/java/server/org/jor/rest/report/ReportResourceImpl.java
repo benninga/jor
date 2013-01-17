@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.jor.rest.report.report.ActivityTypeDistribution;
 import org.jor.rest.report.report.InsiderActivityLast14Days;
+import org.jor.rest.report.report.InsiderActivityWeeklyCohorts;
 import org.jor.rest.report.report.NewUsersByWeek;
 import org.jor.rest.report.report.QuestionsAndTutorials;
 import org.jor.rest.report.report.UserActivityCohorts;
@@ -77,6 +78,9 @@ public class ReportResourceImpl implements ReportResource, ReportResourceConstan
         }
         else if ("6".equals(reportId)) {
             return new QuestionsAndTutorials(query).getData();
+        }
+        else if ("7".equals(reportId)) {
+            return new InsiderActivityWeeklyCohorts(query).getData();
         }
         return new DataTable();
     }
