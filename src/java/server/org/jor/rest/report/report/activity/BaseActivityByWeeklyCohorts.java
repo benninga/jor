@@ -1,4 +1,4 @@
-package org.jor.rest.report.report;
+package org.jor.rest.report.report.activity;
 
 import java.util.List;
 import java.util.Map;
@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.jor.rest.report.report.BaseReport;
 import org.jor.server.services.db.DataService;
 
 import com.google.common.collect.Maps;

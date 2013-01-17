@@ -12,12 +12,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.jor.rest.report.report.ActivityTypeDistribution;
-import org.jor.rest.report.report.InsiderActivityLast14Days;
-import org.jor.rest.report.report.InsiderActivityWeeklyCohorts;
-import org.jor.rest.report.report.NewUsersByWeek;
 import org.jor.rest.report.report.QuestionsAndTutorials;
-import org.jor.rest.report.report.UserActivityCohorts;
 import org.jor.rest.report.report.UserDistributionByCountry;
+import org.jor.rest.report.report.activity.InsiderActivityWeeklyCohorts;
+import org.jor.rest.report.report.activity.UserActivityCohorts;
+import org.jor.rest.report.report.growth.NewUsersByWeek;
+import org.jor.rest.report.report.sales.InsiderActivityLast14Days;
 import org.jor.shared.api.rest.report.ReportResourceConstants;
 import org.jor.shared.log.Logger;
 import org.jor.shared.log.LoggerFactory;

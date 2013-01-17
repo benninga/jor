@@ -1,4 +1,4 @@
-package org.jor.rest.report.report;
+package org.jor.rest.report.report.activity;
 
 import java.text.DecimalFormat;
 import java.util.Objects;

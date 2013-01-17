@@ -1,7 +1,8 @@
-package org.jor.rest.report.report;
+package org.jor.rest.report.report.growth;
 
 import java.util.List;
 
+import org.jor.rest.report.report.BaseReport;
 import org.jor.server.services.db.DataService;
 import com.google.visualization.datasource.datatable.DataTable;
 import com.google.visualization.datasource.datatable.value.ValueType;

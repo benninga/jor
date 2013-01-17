@@ -1,4 +1,4 @@
-package org.jor.rest.report.report;
+package org.jor.rest.report.report.activity;
 
 import com.google.visualization.datasource.query.Query;
 
