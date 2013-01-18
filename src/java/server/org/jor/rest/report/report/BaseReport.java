@@ -13,6 +13,9 @@ import com.google.visualization.datasource.query.Query;
 
 abstract public class BaseReport
 {
+    protected static final String PROD_POSTGRES_DB = "prod-postgres";
+    protected static final String METRICS_POSTGRES_DB = "metrics-postgres";
+    
     private Query query;
     private DataTable table;
     

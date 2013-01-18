@@ -54,7 +54,7 @@ public class QuestionsAndTutorials extends BaseReport
     @Override
     public DataTable getData()
     {
-        DataService service = DataService.getDataService("prod-postgres");
+        DataService service = DataService.getDataService(PROD_POSTGRES_DB);
         List<Object[]> questionRows = service.runSQLQuery(questionsQuery);
         List<Object[]> answerRows = service.runSQLQuery(answersQuery);
         List<Object[]> tutorialRows = service.runSQLQuery(tutorialsQuery);
