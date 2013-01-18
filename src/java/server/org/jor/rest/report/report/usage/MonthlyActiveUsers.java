@@ -31,6 +31,7 @@ public class MonthlyActiveUsers extends BaseReport
     {
         getUserCreatedData();
         getCohortsActivityData();
+        getCohortsEngagedData();
         
         updateDataTable();
         
@@ -44,6 +45,8 @@ public class MonthlyActiveUsers extends BaseReport
         addColumn("new_users", ValueType.NUMBER, "New Users");
         addColumn("active_users", ValueType.NUMBER, "Active Users");
         addColumn("active_users_percentage", ValueType.NUMBER, "Active Users Percentage");
+        addColumn("engaged_users", ValueType.NUMBER, "Engaged Users");
+        addColumn("engaged_users_percentage", ValueType.NUMBER, "Engaged Users Percentage");
         
         Set<MonthlyCohortInfo> sorted = new TreeSet<>(dataMap.values());
         
@@ -74,7 +77,7 @@ public class MonthlyActiveUsers extends BaseReport
             if (info != null) {
                 throw new RuntimeException("Should not have seen this cohort yet: " + cohortName);
             }
-            info = new MonthlyCohortInfo(year, month, totalUsers, cohortSize, 2);
+            info = new MonthlyCohortInfo(year, month, totalUsers, cohortSize, 4);
             dataMap.put(cohortName, info);
         }
     }
@@ -85,7 +88,7 @@ public class MonthlyActiveUsers extends BaseReport
         
         DataService service = DataService.getDataService(PROD_POSTGRES_DB);
         
-        // Get the activity by week for cohorts
+        // Get the activity by cohort
         List<Object[]> activityRows = service.runSQLQuery(activeUsersSql);
         for (Object[] row : activityRows)
         {
@@ -103,6 +106,41 @@ public class MonthlyActiveUsers extends BaseReport
             
             info.stats[0] = activeUsersCount;
             info.stats[1] = activePercent;
+        }
+    }
+    
+    private void getCohortsEngagedData()
+    {
+        String activeUsersSql = getTextFile("monthly_engaged_users.sql");
+        
+        DataService service = DataService.getDataService(PROD_POSTGRES_DB);
+        
+        // Get the engaged counts by month
+        // The query returns just one row with columns for Jan/2012 to Dec 2013
+        List<Object[]> engagedRows = service.runSQLQuery(activeUsersSql);
+        if (engagedRows.size() != 1) {
+            throw new RuntimeException("Expected only one row for engaged users but received: " + engagedRows.size());
+        }
+        
+        Object[] row = engagedRows.get(0);
+        for (int i = 0; i < row.length; i ++)
+        {
+            int engagementYear = 2012 + (i / 12);
+            int engagementMonth = 1 + (i % 12);
+            int engagementCount = ((Number)row[i]).intValue();
+            
+            String cohortName = MonthlyCohortInfo.cohortName(engagementYear, engagementMonth);
+            
+            MonthlyCohortInfo info = dataMap.get(cohortName);
+            if (info == null) {
+                continue; // We may have some 0 for future dates.
+            }
+            
+            DecimalFormat twoDForm = new DecimalFormat("#.##");
+            double engagementPercent = Double.valueOf(twoDForm.format(100d * engagementCount  / info.getTotalUsers()));
+            
+            info.stats[2] = engagementCount;
+            info.stats[3] = engagementPercent;
         }
     }
 
