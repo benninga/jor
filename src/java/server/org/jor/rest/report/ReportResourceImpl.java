@@ -19,6 +19,7 @@ import org.jor.rest.report.report.activity.UserActivityCohorts;
 import org.jor.rest.report.report.growth.ConfirmedUsersRateByMonth;
 import org.jor.rest.report.report.growth.NewUsersByWeek;
 import org.jor.rest.report.report.sales.InsiderActivityLast14Days;
+import org.jor.rest.report.report.usage.MonthlyActiveUsers;
 import org.jor.shared.api.rest.report.ReportResourceConstants;
 import org.jor.shared.log.Logger;
 import org.jor.shared.log.LoggerFactory;
@@ -85,6 +86,9 @@ public class ReportResourceImpl implements ReportResource, ReportResourceConstan
         }
         else if ("8".equals(reportId)) {
             return new ConfirmedUsersRateByMonth(query).getData();
+        }
+        else if ("9".equals(reportId)) {
+            return new MonthlyActiveUsers(query).getData();
         }
         return new DataTable();
     }
