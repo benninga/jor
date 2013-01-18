@@ -10,7 +10,7 @@ import java.util.TreeSet;
 import org.jor.rest.report.report.BaseReport;
 import org.jor.server.services.db.DataService;
 
-import com.google.gwt.thirdparty.guava.common.collect.Maps;
+import com.google.common.collect.Maps;
 import com.google.visualization.datasource.datatable.DataTable;
 import com.google.visualization.datasource.datatable.value.ValueType;
 import com.google.visualization.datasource.query.Query;
