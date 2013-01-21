@@ -1,0 +1,105 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1.0', {'packages':['controls']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(loadQueryData);
+
+      var data;
+      var signupChart;
+      var dashboard;
+      
+      function loadQueryData()
+      {
+            var query = new google.visualization.Query('../datasource?queryId=9');
+  
+            // Send the query with a callback function.
+            query.send(drawVisualization);
+      }
+
+      function drawVisualization(response)
+      {
+            if (response.isError())
+            {
+              alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+              return;
+            }
+  
+            data = response.getDataTable();
+            dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
+            
+            // Define a slider control for the week column.
+            var slider = new google.visualization.ControlWrapper({
+              'controlType': 'NumberRangeFilter',
+              'containerId': 'filter_div',
+              'options': {
+                'filterColumnIndex': 1,
+              'ui': {'labelStacking': 'vertical'}
+              }
+            });
+            
+            // Create a column chart, passing some options
+            activeUsersChart = new google.visualization.ChartWrapper({
+              'chartType': 'LineChart',
+              'containerId': 'active_chart_div',
+              'options': {
+                'title' : 'Monthly Active Users Percentage',
+                'width' : 1100,
+                'height' : 700,
+                'legend': 'bottom'
+              },
+              'view': {'columns': [0, 4]}
+            });
+            
+            // Create a column chart, passing some options
+            engagedUsersChart = new google.visualization.ChartWrapper({
+              'chartType': 'LineChart',
+              'containerId': 'engaged_chart_div',
+              'options': {
+                'title' : 'Monthly Engaged Users Percentage',
+                'width' : 1100,
+                'height' : 700,
+                'legend': 'bottom'
+              },
+              'view': {'columns': [0, 6]}
+            });
+         
+            // Create a column chart, passing some options
+            var fullTable = new google.visualization.ChartWrapper({
+              'chartType': 'Table',
+              'containerId': 'full_table_div',
+              'options': {
+                'title' : 'Monthly User Confirmation Rate',
+                'legend': 'bottom',
+                'allowHtml': true
+              }
+            });
+         
+            // Bind the slider and the charts and draw the data
+            dashboard.bind([slider], activeUsersChart).bind([slider], engagedUsersChart).bind([slider], fullTable);
+            dashboard.draw(data);
+      }
+      
+    </script>
+  </head>
+
+  <body>
+    <!--Div that will hold the pie chart-->
+    <div id="dashboard_div" style="width: 1200px">
+      <div id="controls_div" style="width: 280px; float:left;">
+        <div id="filter_div"></div>
+      </div>
+      <div id="main_content_div" style="width: 900px; float: right;">
+        <div id="active_chart_div" ></div>
+        <div id="engaged_chart_div" ></div>
+        <div id="full_table_div" style="margin-top:20px;"></div>
+        <hr/>
+      </div>
+    </div>
+  </body>
+</html>
