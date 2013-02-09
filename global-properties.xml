@@ -111,7 +111,7 @@
     <property name="postgresql.version" value="9.1-901.jdbc4" />
 
     <!-- Check Style Library -->
-    <property name="check.style.version" value="5.3" />
+    <property name="check.style.version" value="5.6" />
 
     <!-- SLF4J-->
     <property name="slf4j.version" value="1.5.8" />
