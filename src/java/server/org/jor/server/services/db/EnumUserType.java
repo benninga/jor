@@ -53,6 +53,10 @@ public class EnumUserType<E extends Enum<E>> implements UserType
         {
             preparedStatement.setNull(index, Types.VARCHAR);
         }
+        else if (value instanceof String)
+        {
+            preparedStatement.setString(index, (String)value);
+        }
         else
         {
             preparedStatement.setString(index, ((Enum<?>) value).name());
