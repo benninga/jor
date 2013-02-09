@@ -86,11 +86,11 @@ public class TestFileUtils
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file));)
         {
-	        for (int i = 0; i < LINE_COUNT; i ++)
-	        {
-	            writer.write(String.format(TEST_LINE, i));
-	            writer.write("\n");
-	        }
+            for (int i = 0; i < LINE_COUNT; i ++)
+            {
+                writer.write(String.format(TEST_LINE, i));
+                writer.write("\n");
+            }
         }
     }
     

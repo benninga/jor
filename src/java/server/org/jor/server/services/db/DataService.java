@@ -49,7 +49,7 @@ public class DataService
     
     public static Set<String> getNamedSources()
     {
-    	return namedSources.keySet();
+        return namedSources.keySet();
     }
     
     public static DataService getDataService(String name)

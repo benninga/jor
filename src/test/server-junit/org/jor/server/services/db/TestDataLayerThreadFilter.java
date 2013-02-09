@@ -19,7 +19,7 @@ public class TestDataLayerThreadFilter extends BaseJdoTestClass
         super.setUp();
         for (String namedSource : DataService.getNamedSources())
         {
-        	DataService.getDataService(namedSource).closeSession();
+            DataService.getDataService(namedSource).closeSession();
         }
     }
     

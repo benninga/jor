@@ -16,10 +16,10 @@ public class JettyStop implements LoginConstantsForTests
     {
         try (Socket s = new Socket(InetAddress.getByName(LOCALHOST_IP), DEFAULT_STOP_PORT);)
         {
-	        OutputStream out = s.getOutputStream();
-	        LOG.info("Sending jetty stop request");
-	        out.write(("\r\n").getBytes());
-	        out.flush();
+            OutputStream out = s.getOutputStream();
+            LOG.info("Sending jetty stop request");
+            out.write(("\r\n").getBytes());
+            out.flush();
         }
     }
 

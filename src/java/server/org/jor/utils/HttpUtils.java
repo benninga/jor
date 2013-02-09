@@ -66,27 +66,27 @@ public class HttpUtils
         int responseCode = 0;
         try (OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());)
         {
-	        wr.write(data);
-	        wr.flush();
-	        
-	        responseCode = conn.getResponseCode();
-	        InputStream is;
-	        if (responseCode < 400) {
-	            is = conn.getInputStream();
-	        } else {
-	            is = conn.getErrorStream();
-	        }
-	        
-	        // Get the response
-	        try (BufferedInputStream rd = new BufferedInputStream(is);)
-	        {
-		        int next = 0;
-		        while ( (next = rd.read()) != -1) {
-		            out.write((byte)next);
-		        }
-		        long totalTime = System.currentTimeMillis() - startTime;
-		        LOG.info("HTTP request time: " + totalTime + ", URL: " + urlPage);
-	        }
+            wr.write(data);
+            wr.flush();
+            
+            responseCode = conn.getResponseCode();
+            InputStream is;
+            if (responseCode < 400) {
+                is = conn.getInputStream();
+            } else {
+                is = conn.getErrorStream();
+            }
+            
+            // Get the response
+            try (BufferedInputStream rd = new BufferedInputStream(is);)
+            {
+                int next = 0;
+                while ( (next = rd.read()) != -1) {
+                    out.write((byte)next);
+                }
+                long totalTime = System.currentTimeMillis() - startTime;
+                LOG.info("HTTP request time: " + totalTime + ", URL: " + urlPage);
+            }
         }
         
         byte[] bytes = out.toByteArray();
@@ -122,12 +122,12 @@ public class HttpUtils
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try (BufferedInputStream rd = new BufferedInputStream(conn.getInputStream());)
         {
-	        int next = 0;
-	        while ( (next = rd.read()) != -1) {
-	            out.write((byte)next);
-	        }
-	        long totalTime = System.currentTimeMillis() - startTime;
-	        LOG.info("Retrieved html page time: " + totalTime + ", page: " + urlPage);
+            int next = 0;
+            while ( (next = rd.read()) != -1) {
+                out.write((byte)next);
+            }
+            long totalTime = System.currentTimeMillis() - startTime;
+            LOG.info("Retrieved html page time: " + totalTime + ", page: " + urlPage);
         }
         
         return out.toByteArray();
@@ -154,14 +154,14 @@ public class HttpUtils
 
     public static String bytesToString(byte[] bytes) throws IOException
     {
-    	StringBuffer sb = new StringBuffer();
+        StringBuffer sb = new StringBuffer();
         try (BufferedReader rd = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(bytes)));)
         {
-	        String line;
-	        while ((line = rd.readLine()) != null)
-	        {
-	            sb.append(line);
-	        }
+            String line;
+            while ((line = rd.readLine()) != null)
+            {
+                sb.append(line);
+            }
         }
         String result = sb.toString();
         return result;

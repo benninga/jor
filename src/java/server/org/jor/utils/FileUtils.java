@@ -61,14 +61,14 @@ public class FileUtils
         ByteArrayOutputStream out = new ByteArrayOutputStream(bytes.length);
         try (ZipOutputStream zip = new ZipOutputStream(out);)
         {
-	        // Add ZIP entry to output stream.
-	        zip.putNextEntry(new ZipEntry(fileName));
-	        
-	        // Write the file contents
-	        zip.write(bytes);
-	
-	        // Complete the entry
-	        zip.closeEntry();
+            // Add ZIP entry to output stream.
+            zip.putNextEntry(new ZipEntry(fileName));
+            
+            // Write the file contents
+            zip.write(bytes);
+    
+            // Complete the entry
+            zip.closeEntry();
         }        
         return out.toByteArray();
     }

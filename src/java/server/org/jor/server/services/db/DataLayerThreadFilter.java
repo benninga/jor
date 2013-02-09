@@ -25,7 +25,7 @@ public class DataLayerThreadFilter implements Filter
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
         throws IOException, ServletException
     {
-    	Set<DataService> services = Sets.newHashSet();
+        Set<DataService> services = Sets.newHashSet();
         try
         {
             LogContext.get().setUserName(SecurityContext.SYSTEM_USER_NAME);
@@ -34,9 +34,9 @@ public class DataLayerThreadFilter implements Filter
             logger.debug("Starting a database session");
             for (String namedSource : DataService.getNamedSources())
             {
-            	DataService service = DataService.getDataService(namedSource);
-            	service.openSession();
-            	services.add(service);
+                DataService service = DataService.getDataService(namedSource);
+                service.openSession();
+                services.add(service);
             }
 
             // Call the next filter (continue request processing)
@@ -49,11 +49,11 @@ public class DataLayerThreadFilter implements Filter
             logger.debug("Committing the database session");
             for (DataService service : services)
             {
-	            try {
-	                service.closeSession();
-	            } catch (Exception e) {
-	                logger.error("Failed to close database session", e);
-	            }
+                try {
+                    service.closeSession();
+                } catch (Exception e) {
+                    logger.error("Failed to close database session", e);
+                }
             }
             
             LogContext.get().removeUserName();

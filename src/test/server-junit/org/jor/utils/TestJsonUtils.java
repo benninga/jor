@@ -6,11 +6,6 @@ import java.util.Date;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.google.web.bindery.autobean.shared.AutoBean;
-import com.google.web.bindery.autobean.shared.AutoBeanCodex;
-import com.google.web.bindery.autobean.shared.AutoBeanFactory;
-import com.google.web.bindery.autobean.vm.AutoBeanFactorySource;
-
 public class TestJsonUtils
 {
     @Test
@@ -60,38 +55,6 @@ public class TestJsonUtils
         Assert.assertNull("Date should be null", bean.getToday());
         Assert.assertNull("Long should be null", bean.getMyLong());
         Assert.assertNull("Integer should be null", bean.getMyInteger());
-    }
-    
-    @Test
-    public void testConvertToGwtJsonWorksOnDateAndLong() throws Exception
-    {
-        MyDateClass bean = new MyDateClass();
-        bean.setToday(new Date(1320459551497L));
-        bean.setMyLong(new Long(34));
-        bean.setMyInteger(new Integer(15));
-        internalConvertToGwtAndBack(bean);
-        
-        // Test serializing null dates
-        bean = new MyDateClass();
-        bean.setToday(null);
-        bean.setMyLong(null);
-        bean.setMyInteger(null);
-        internalConvertToGwtAndBack(bean);
-    }
-    
-    private void internalConvertToGwtAndBack(MyDateClass item)
-    {
-        // Convert to JSON and back using Server-side JSON serializer
-        String json = JsonUtils.getString(item);
-        Object copied = JsonUtils.fromString(json, MyDateClass.class);
-        CopyConstructorHelper.compareObjects(item, copied);
-        
-        // Convert to JSON and back using mix of server and client side (GWT) JSON serializers
-        ObjectFactory factory = AutoBeanFactorySource.create(ObjectFactory.class);
-        AutoBean<?> bean = AutoBeanCodex.decode(factory, IMyDateClass.class, json);
-        json = AutoBeanCodex.encode(bean).getPayload();
-        copied = JsonUtils.fromString(json, MyDateClass.class);
-        CopyConstructorHelper.compareObjects(item, copied);
     }
     
     private static class MyBean
@@ -166,8 +129,4 @@ public class TestJsonUtils
         public void setMyInteger(Integer myLong);
     }
     
-    public interface ObjectFactory extends AutoBeanFactory
-    {
-        AutoBean<MyDateClass> getDateClass();
-    }
 }

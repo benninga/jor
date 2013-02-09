@@ -46,7 +46,7 @@ public class TestServicesManager extends BaseJdoTestClass
         manager.contextDestroyed(null);
         for (String namedSource : DataService.getNamedSources())
         {
-        	DataService.getDataService(namedSource).closeSession();
+            DataService.getDataService(namedSource).closeSession();
         }
         
         LoggerFactory.setLoggerProvider(null);

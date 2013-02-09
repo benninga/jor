@@ -47,7 +47,7 @@ abstract public class BaseJdoTestClass
         PersistenceManager.setSessionFactory(setupTestDatabase().buildSessionFactory());
         for (String namedSource : DataService.getNamedSources())
         {
-        	DataService.getDataService(namedSource).openSession();
+                DataService.getDataService(namedSource).openSession();
         }
     }
 
@@ -56,7 +56,7 @@ abstract public class BaseJdoTestClass
         PersistenceManager.setSessionFactory(null);
         for (String namedSource : DataService.getNamedSources())
         {
-        	DataService.getDataService(namedSource).closeSession();
+                DataService.getDataService(namedSource).closeSession();
         }
     }
 

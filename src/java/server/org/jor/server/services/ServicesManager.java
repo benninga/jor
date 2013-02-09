@@ -247,8 +247,8 @@ public class ServicesManager implements ServletContextListener
             // We want the initialization to happen during start-up not on the first user request.
             for (String namedSource : namedSources)
             {
-            	DataService service = DataService.getDataService(namedSource);
-            	service.openSession();
+                DataService service = DataService.getDataService(namedSource);
+                service.openSession();
             }
         }
         finally
@@ -257,7 +257,7 @@ public class ServicesManager implements ServletContextListener
             LOG.debug("Committing the database session");
             for (String namedSource : DataService.getNamedSources())
             {
-            	DataService.getDataService(namedSource).closeSession();
+                DataService.getDataService(namedSource).closeSession();
             }
         }
     }
