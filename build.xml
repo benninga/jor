@@ -674,7 +674,11 @@
         <!-- Build our JAR files -->
         <jar jarfile="${dist}/jor-server.jar" basedir="${server.classes.dir}" />
         <jar jarfile="${dist}/jor-shared.jar" basedir="${shared.classes.dir}" />
-
+        
+        <!-- Build JAR files for the source code -->
+        <jar jarfile="${dist}/jor-server-sources.jar" basedir="${src.java.server}" />
+        <jar jarfile="${dist}/jor-shared-sources.jar" basedir="${src.java.shared}" />
+        
         <!-- Create a WAR file with all the build information -->
         <zip destfile="${dist}/${war.file}">
             <fileset dir="${war}" includes="**/*" />
