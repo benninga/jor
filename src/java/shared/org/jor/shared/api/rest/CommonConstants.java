@@ -5,6 +5,8 @@ public interface CommonConstants
     String BASE_URL = "v1";
     String JSON_PATH = "/json";
     String XML_PATH = "/xml";
+    String CSV_PATH = "/csv";
+    String HTML_PATH = "/html";
     String CREATE_PATH = "/create";
     String ORDER_BY = "orderby";
     String ORDER_BY_DESC = " DESC";
