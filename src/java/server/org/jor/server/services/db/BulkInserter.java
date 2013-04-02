@@ -1,12 +1,13 @@
 package org.jor.server.services.db;
 
-import org.jor.shared.log.Logger;
-import org.jor.shared.log.LoggerFactory;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.MessageFormat;
+
+import org.hibernate.jdbc.Work;
+import org.jor.shared.log.Logger;
+import org.jor.shared.log.LoggerFactory;
 
 public class BulkInserter
 {
@@ -14,7 +15,7 @@ public class BulkInserter
     
     private static final int MAX_BUFFER = 1045000; // Max MySQL Packet size - (minus ~500 bytes for room) 
     
-    private final Connection connection;
+    private final QueryExecutor queryExecutor;
     private final String tableName;
     private final String insertQuery;
     private final String valuesTuple;
@@ -27,20 +28,36 @@ public class BulkInserter
     private int totalInserts;
     private String comma;
     
+    public static interface QueryExecutor
+    {
+        void executeQuery(String sql) throws SQLException;
+    }
+    
     public BulkInserter(String tableName, String insertPrefix,
                         String valuesTuple, Connection connection)
     {
-        this(tableName, insertPrefix, valuesTuple, connection, Integer.MAX_VALUE,
-             true);
+        this(tableName, insertPrefix, valuesTuple, new RawConnectionExecutor(connection));
+    }
+    
+    public BulkInserter(String tableName, String insertPrefix,
+                        String valuesTuple, DataService dataService)
+    {
+        this(tableName, insertPrefix, valuesTuple, new DataServiceExecutor(dataService));
+    }
+    
+    public BulkInserter(String tableName, String insertPrefix,
+                        String valuesTuple, QueryExecutor queryExecutor)
+    {
+        this(tableName, insertPrefix, valuesTuple, queryExecutor, Integer.MAX_VALUE, true);
     }
     
     public BulkInserter(String tableName, String insertPrefix, String valuesTuple,
-                        Connection connection, int maxBulkCount, boolean logStatistics)
+                        QueryExecutor queryExecutor, int maxBulkCount, boolean logStatistics)
     {
         this.tableName = tableName;
         this.insertQuery = insertPrefix;
         this.valuesTuple = valuesTuple;
-        this.connection = connection;
+        this.queryExecutor = queryExecutor;
         this.formatter = new MessageFormat(this.valuesTuple);
         this.maxBulkCount = maxBulkCount;
         this.queryBuilder = new StringBuffer(MAX_BUFFER + 1000);
@@ -101,8 +118,7 @@ public class BulkInserter
             long startTime = System.currentTimeMillis();
             try
             {
-                Statement statement = connection.createStatement();
-                statement.execute(query);
+                queryExecutor.executeQuery(query);
             }
             catch (Exception e)
             {
@@ -136,6 +152,51 @@ public class BulkInserter
             return;
         }
         System.out.println(String.format("xxx,%s, Size,Speed", tableName));
+    }
+    
+    public static class DataServiceExecutor implements QueryExecutor
+    {
+        private DataService service;
+        
+        public DataServiceExecutor(DataService service)
+        {
+            this.service = service;
+        }
+        
+        @Override
+        public void executeQuery(final String sql)
+        {
+            service.doWork(new Work()
+            {
+                @Override public void execute(Connection connection) throws SQLException
+                {
+                    try (Statement statement = connection.createStatement();)
+                    {
+                        statement.execute(sql);
+                    }
+                }
+            });
+        }
+        
+    }
+    
+    public static class RawConnectionExecutor implements QueryExecutor
+    {
+        private Connection connection;
+        
+        public RawConnectionExecutor(Connection connection)
+        {
+            this.connection = connection;
+        }
+        
+        @Override
+        public void executeQuery(String sql) throws SQLException
+        {
+            try (Statement statement = connection.createStatement();)
+            {
+                statement.execute(sql);
+            }
+        }
     }
     
 }

@@ -13,6 +13,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.dialect.HSQLDialect;
 import org.hibernate.impl.SessionFactoryImpl;
+import org.hibernate.jdbc.Work;
 import org.hibernate.metadata.ClassMetadata;
 
 import org.jor.shared.log.Logger;
@@ -168,6 +169,11 @@ public class PersistenceManager
     public SQLQuery newSQLQuery(String queryStr, String[] columnNames)
     {
         return new SQLQuery(session, queryStr, columnNames);
+    }
+    
+    public void doWork(Work work)
+    {
+        session.doWork(work);
     }
     
     public ClassMetadata getMetadata(Class<?> clazz)

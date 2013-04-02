@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.ObjectNotFoundException;
+import org.hibernate.jdbc.Work;
 import org.hibernate.metadata.ClassMetadata;
 
 import org.jor.server.services.SessionManager;
@@ -410,6 +411,12 @@ public class DataService
         SQLQuery query = currentManager.newSQLQuery(queryStr, columnNames);
         List<Object[]> objects = query.execute();
         return objects;
+    }
+    
+    public void doWork(Work work)
+    {
+        PersistenceManager currentManager = getPersistenceManager();
+        currentManager.doWork(work);
     }
     
     public ClassMetadata getMetadata(Class<?> clazz)
