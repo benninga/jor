@@ -20,8 +20,8 @@ public abstract class AbstractQueryTest extends BaseJdoTestClass
     @After @Override
     public void tearDown() throws Exception
     {
-        super.tearDown();
         session.close();
+        super.tearDown();
     }
     
     protected final Session getSession()

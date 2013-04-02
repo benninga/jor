@@ -25,7 +25,6 @@ abstract public class BaseJdoTestClass
     public void setUp() throws Exception
     {
         ServicesManager.createDefaultContent = false;
-        startServices();
         SessionManager.get().removeSession();
         SessionManager.get().createSession();
 
@@ -33,25 +32,31 @@ abstract public class BaseJdoTestClass
         SecurityContext sc = new SecurityContext("1", "user", "hello");
         SessionManager.get().clear();
         SessionManager.get().createSession(sc);
+        
+        // Setup the data service properly.
+        String dbName = ServicesManager.DEFAULT_DB;
+        DataService.setDefaultDatabaseName(dbName);
+        DataService.getDataService(dbName);
+        startDataServices();
     }
 
     @After
     public void tearDown() throws Exception
     {
         SessionManager.get().removeSession();
-        stopServices();
+        stopDataServices();
     }
 
-    private void startServices()
+    private void startDataServices()
     {
-        PersistenceManager.setSessionFactory(setupTestDatabase().buildSessionFactory());
         for (String namedSource : DataService.getNamedSources())
         {
-                DataService.getDataService(namedSource).openSession();
+            PersistenceManager.setSessionFactory(namedSource, setupTestDatabase().buildSessionFactory());
+            DataService.getDataService(namedSource).openSession();
         }
     }
 
-    private void stopServices()
+    private void stopDataServices()
     {
         PersistenceManager.setSessionFactory(null);
         for (String namedSource : DataService.getNamedSources())
@@ -110,5 +115,6 @@ abstract public class BaseJdoTestClass
     static
     {
         JDO_CLASSES = new HashSet<>();
+        JDO_CLASSES.add(SampleClassJDO.class);
     }
 }

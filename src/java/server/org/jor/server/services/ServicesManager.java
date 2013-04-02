@@ -225,14 +225,17 @@ public class ServicesManager implements ServletContextListener
     private void initializeDataLayer(ServletContext context)
     {
         String defaultDb = context.getInitParameter(DEFAULT_DATABASE_SOURCE_PARAM_NAME);
-        if (defaultDb == null || defaultDb.isEmpty() || "P_DEFAULT_DATABASE_SOURCE".equals(defaultDb)) {
+        if (defaultDb == null || defaultDb.isEmpty()
+                || "P_DEFAULT_DATABASE_SOURCE".equals(defaultDb) || "getInitParameter".equals(defaultDb))
+        {
             defaultDb = DEFAULT_DB;
         }
         DataService.setDefaultDatabaseName(defaultDb);
         
         Set<String> namedSources = Sets.newHashSet();
         String dbSources = context.getInitParameter(DATABASE_SOURCES_PARAM_NAME);
-        if (dbSources == null || dbSources.isEmpty() || "P_DATABASE_SOURCES".equals(dbSources)) {
+        if (dbSources == null || dbSources.isEmpty()
+                || "P_DATABASE_SOURCES".equals(dbSources) || "getInitParameter".equals(dbSources)) {
             namedSources.add(defaultDb);
         }
         else
