@@ -73,11 +73,9 @@ public class ServicesManager implements ServletContextListener
     private static final String DEFAULT_DATABASE_SOURCE_PARAM_NAME = "defaultDatabaseSource";
     public static final String DEFAULT_DB = "default";
     
-    private static final String LOCAL_HOST_IPV4 = "127.0.0.1";
     private static final String LOCAL_HOST_NAME = "localhost";
-    private static final String LOCAL_HOST_IPV6 = "0:0:0:0:0:0:0:1";
     
- // The base HTTP URL to the hosting server (e.g. http://localhost:8080/) without the context path
+    // The base HTTP URL to the hosting server (e.g. http://localhost:8080/) without the context path
     private static String hostURL;
     
     // The context path to the application without the host URL
@@ -285,10 +283,14 @@ public class ServicesManager implements ServletContextListener
     
     public static boolean isDebugMode()
     {
-        boolean isDebug = Boolean.parseBoolean(System.getProperty("jor.server.debug", "false"));
-        String ip = LogContext.get().getRemoteIP();
-        
-        if (isDebug || ip == null || ip.contains(LOCAL_HOST_IPV4) || ip.contains(LOCAL_HOST_IPV6) ||ip.contains(LOCAL_HOST_NAME))
+        String debugStr = System.getProperty("jor.server.debug", null);
+        if (debugStr != null) {
+            return Boolean.parseBoolean(debugStr);
+        }
+
+        // If the caller of the call is 
+        String hostUrl = getHostURL();
+        if (hostUrl.contains(LOCAL_HOST_NAME))
         {
             return true;
         }
