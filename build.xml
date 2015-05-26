@@ -410,7 +410,7 @@
         <copy-jars-to-war dir="${m2}/com/sun/jersey/contribs/jersey-multipart/${jersey.version}" />
         <copy-jars-to-war dir="${m2}/org/jvnet/mimepull/mimepull/${jersey.version}" />
         <copy-jars-to-war dir="${m2}/asm/asm/${asm.version}" />
-        <copy-jars-to-war dir="${m2}/freemarker/freemarker/${freemarker.version}" />
+        <copy-jars-to-war dir="${m2}/org/freemarker/freemarker/${freemarker.version}" />
         <copy-jars-to-war dir="${m2}/javax/ws/rs/jsr311-api/${jsr311-api.version}" />
         <copy-jars-to-war dir="${m2}/org/codehaus/jackson/jackson-core-asl/${jackson.version}" />
         <copy-jars-to-war dir="${m2}/org/codehaus/jackson/jackson-mapper-asl/${jackson.version}" />
@@ -426,7 +426,7 @@
 
         <!-- email related Jar files -->
         <copy-jars-to-war dir="${m2}/javax/mail/mail/${javax.mail.version}" />
-        <copy-jars-to-war dir="${m2}/javax/mail/mailapi/${javax.mailapi.version}" />
+        <copy-jars-to-war dir="${m2}/javax/mail/javax.mail-api/${javax.mailapi.version}" />
         <!--copy-jars-to-war dir="${m2}/javax/activation/activation/${activation.version}" / -->
         <copy tofile="${war.lib}/activation.jar" file="${m2}/javax/activation/activation/${activation.version}/activation-${activation.version}.jar" />
 
@@ -660,7 +660,7 @@
     </target>
 
     <target name="verify-code-quality" description="Verifies that the code is according to standard"
-            depends="check-style, check-eclipse-compile"/>
+            depends="check-style"/>
 
     <target name="build" depends="verify-install, init, compile"
             description="Build this project" />
