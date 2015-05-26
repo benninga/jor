@@ -11,11 +11,14 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.TemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
+import freemarker.template.DefaultObjectWrapperBuilder;
 import freemarker.template.Template;
+import freemarker.template.Version;
 
 public class FreeMarkerHelper implements RestConstants
 {
@@ -24,17 +27,19 @@ public class FreeMarkerHelper implements RestConstants
     
     public static Configuration getConfiguration() throws IOException
     {
-        Configuration cfg = new Configuration();
+        Version version = Configuration.VERSION_2_3_22;
+        Configuration cfg = new Configuration(version);
         cfg.setTemplateLoader(getTemplateLoader());
-        cfg.setObjectWrapper(new DefaultObjectWrapper()); 
+        DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(version);
+        builder.setExposeFields(true);
+        DefaultObjectWrapper wrapper = builder.build();
+        cfg.setObjectWrapper(wrapper); 
         return cfg;
     }
     
     public static String processTemplateFile(String templateFileName,
                                              Map<String, Object> root)
     {
-        root.put(COMMON_CSS, CommonHtml.getCommonCSS());
-        root.put(COMMON_HEADER, CommonHtml.getCommonHeader());
         root.put(BASE_URL, ServicesManager.getContextPath());
         
         try
