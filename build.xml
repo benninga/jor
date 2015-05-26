@@ -17,7 +17,8 @@
     
     <target name="-init-antlib-props">
         <!-- This requries antlib-props to be installed in Ant's library path -->
-        
+        <!-- You can find ant-props copy here: -->
+        <!-- https://github.com/benninga/my-repo/blob/master/repo/releases/org/apache/ant/ant-props/1.1/ant-props-1.1.jar -->
         <typedef uri="antlib:org.apache.ant.props" resource="org/apache/ant/props/antlib.xml" classpath="ant-props.jar"/>
         <echo message="Initializing nested property expander" />
         <propertyhelper>
