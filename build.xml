@@ -413,8 +413,8 @@
         <copy-jars-to-war dir="${m2}/asm/asm/${asm.version}" />
         <copy-jars-to-war dir="${m2}/org/freemarker/freemarker/${freemarker.version}" />
         <copy-jars-to-war dir="${m2}/javax/ws/rs/jsr311-api/${jsr311-api.version}" />
-    	
-    	<copy-jars-to-war dir="${m2}/com/fasterxml/jackson/core/jackson-databind/${jackson.v2.version}" />
+
+        <copy-jars-to-war dir="${m2}/com/fasterxml/jackson/core/jackson-databind/${jackson.v2.version}" />
         <copy-jars-to-war dir="${m2}/com/fasterxml/jackson/core/jackson-core/${jackson.v2.version}" />
         <copy-jars-to-war dir="${m2}/com/fasterxml/jackson/core/jackson-annotations/${jackson.v2.version}" />
 
