@@ -120,7 +120,7 @@
     <property name="log4j.version" value="1.2.14" />
     
     <!-- Jackson for JSON serialization -->
-    <property name="jackson.version" value="1.8.4" />
+    <property name="jackson.v2.version" value="2.7.3" />
 
     <!-- JUnit -->
     <property name="junit.version" value="4.8.1" />

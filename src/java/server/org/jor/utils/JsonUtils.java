@@ -3,16 +3,16 @@ package org.jor.utils;
 import java.io.IOException;
 import java.util.Date;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.map.JsonSerializer;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.module.SimpleModule;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.Version;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 public class JsonUtils
 {
@@ -51,7 +51,7 @@ public class JsonUtils
         // We're adding custom serializer for date and long.
         // This is due to a Long related bug in GWT 2.3
         // http://code.google.com/p/google-web-toolkit/issues/detail?id=6331
-        SimpleModule module = new SimpleModule("JOR", new Version(1, 0, 0, null)); // Any name will do.
+        SimpleModule module = new SimpleModule("JOR", new Version(1, 0, 0, "", "", "")); // Any name will do.
         module.addSerializer(Date.class, new DateSerializer());
         module.addDeserializer(Date.class, new DateDeserializer());
         module.addSerializer(Long.class, new LongSerializer());

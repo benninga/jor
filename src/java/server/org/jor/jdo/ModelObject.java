@@ -8,12 +8,12 @@ import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
 import org.jor.model.ModelBean;
 import org.jor.server.services.db.ObjectJDO;
 import org.jor.server.services.db.ObjectKey;
 import org.jor.shared.api.IModelObject;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties("key")
 @ModelBean(IModelObject.class)

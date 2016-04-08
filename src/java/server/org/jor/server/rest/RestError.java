@@ -10,11 +10,11 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
 import org.jor.model.ModelBean;
 import org.jor.shared.api.rest.IRestError;
 import org.jor.utils.HtmlPrintable;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)

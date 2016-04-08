@@ -13,12 +13,12 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-
 import org.jor.shared.log.Logger;
 import org.jor.shared.log.LoggerFactory;
 import org.jor.utils.JsonUtils;
+
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Provider
 public class JsonObjectSerializer<T> implements MessageBodyReader<T>, MessageBodyWriter<T>

@@ -13,9 +13,9 @@ import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import org.codehaus.jackson.map.JsonMappingException;
-
 import org.jor.utils.XmlUtils;
+
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 @Provider
 public class XmlObjectSerializer<T> implements MessageBodyReader<T>, MessageBodyWriter<T>

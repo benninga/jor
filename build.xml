@@ -413,9 +413,10 @@
         <copy-jars-to-war dir="${m2}/asm/asm/${asm.version}" />
         <copy-jars-to-war dir="${m2}/org/freemarker/freemarker/${freemarker.version}" />
         <copy-jars-to-war dir="${m2}/javax/ws/rs/jsr311-api/${jsr311-api.version}" />
-        <copy-jars-to-war dir="${m2}/org/codehaus/jackson/jackson-core-asl/${jackson.version}" />
-        <copy-jars-to-war dir="${m2}/org/codehaus/jackson/jackson-mapper-asl/${jackson.version}" />
-        <copy-jars-to-war dir="${m2}/org/codehaus/jackson/jackson-jaxrs/${jackson.version}" />
+    	
+    	<copy-jars-to-war dir="${m2}/com/fasterxml/jackson/core/jackson-databind/${jackson.v2.version}" />
+        <copy-jars-to-war dir="${m2}/com/fasterxml/jackson/core/jackson-core/${jackson.v2.version}" />
+        <copy-jars-to-war dir="${m2}/com/fasterxml/jackson/core/jackson-annotations/${jackson.v2.version}" />
 
         <!-- Google Guava -->
         <copy file="${guava.jar}" todir="${war.lib}"/>

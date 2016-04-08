@@ -1,6 +1,6 @@
 package org.jor.server.services.db;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties({"id", "version"})
 public class ObjectKey
